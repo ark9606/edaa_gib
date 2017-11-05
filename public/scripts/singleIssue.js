@@ -4,7 +4,7 @@ window.onload = function () {
   console.log(typeof isLogged);
   if(!isLogged) return;
 
-  let socket = io.connect('http://localhost:3000');
+  let socket = io.connect('https://fat-git.herokuapp.com');
   socket.on('connect', function(data) {
     socket.emit('join', 'Hello World from client');
   });
