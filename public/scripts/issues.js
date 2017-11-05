@@ -44,7 +44,7 @@ function showIssues(issues) {
   let div = document.createElement('div');
   let html = '';
   issues.forEach(item => {
-    html += `<div class="issue"><a href="${generateUrlForIssue(item.number)}">${item.title}</a><div class="issue_labels">`;
+    html += `<div class="issue"><a href="${generateUrlForIssue(item.number)}"><pre>${item.title}</pre></a><div class="issue_labels">`;
     item.labels.forEach(l => {
       html+=`<a href="${generateUrlForLabel(l.name)}">${l.name}</a>`;
     });
