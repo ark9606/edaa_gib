@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Github issue browser">
+  <title>GitHub issue browser | EDAA</title>
+  <link rel="stylesheet" href="/styles/css/main.css">
+  <link rel="shortcut icon" href="/favicon.ico"  type="image/x-icon">
+</head>
+<body>
+<form id="queryForm">
+  <input type="text" required name="repoOwner" placeholder="repository owner" value="facebook">
+  <input type="text" required name="repoName" placeholder="repository name" value="react">
+  <input type="submit">
+</form>
+
+<!-- here will be labels for repo -->
+<form id="labels">
+
+
+</form>
+
+
+{{>userWidget}}
+<div class="repo_comments">
+  <div id="repo_comments_container">
+
+  </div>
+
+  <div id="loadMore_container">
+
+  </div>
+
+</div>
+
+
+<script src="scripts/index.js"></script>
+
+</body>
+</html>
+

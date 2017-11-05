@@ -1,0 +1,99 @@
+@import 'base'
+
+$rhombOverlay: rgba(146, 146, 146, 0.71)
+
+$rhombBack1: #FFBA75
+$rhombBack2: #FEAC58
+$rhombBack3: #FF9A36
+
+$userActionTxtClr: #fff
+$user_width: 200px
+
+body
+  form#labels
+    display: flex
+    flex-flow: row wrap
+    justify-content: center
+    align-items: center
+    padding: 20px
+    width: calc(100% - 40px)
+    label
+      margin: 10px auto
+    div.label_group
+      display: flex
+      flex-flow: row wrap
+      border: 2px solid black
+      padding: 20px
+      width: calc(100% - 40px)
+      margin: 10px 0
+      position: relative
+      span.label_group_name
+        display: block
+        position: absolute
+        top: -5px
+        left: 0
+        background: white
+        padding: 5px
+
+
+
+
+
+
+@media only screen and (max-width: 1520px)
+  $new_registerSize: 400px
+  body
+    div.main_row
+      div.rhomb_container
+        width: $new_registerSize
+        height: $new_registerSize
+        left: calc(#{50%} - #{$new_registerSize/2})
+        top: calc(#{50%} - #{$new_registerSize/2})
+
+@media only screen and (max-width: 1220px)
+  $new_registerSize: 300px
+  body
+    div.main_row
+      div.rhomb_container
+        width: $new_registerSize
+        height: $new_registerSize
+        left: calc(#{50%} - #{$new_registerSize/2})
+        top: calc(#{50%} - #{$new_registerSize/2})
+
+@media only screen and (max-width: 1000px)
+  body
+    div.user_container
+      position: absolute
+      left: calc(50% - #{$user_width/2})
+    h1.title
+      margin-top: 200px
+
+@media only screen and (max-width: 910px)
+  $new_registerSize: 200px
+  body
+    div.main_row
+      div.rhomb_container
+        width: $new_registerSize
+        height: $new_registerSize
+        left: calc(#{50%} - #{$new_registerSize/2})
+        top: calc(#{50%} - #{$new_registerSize/2})
+
+@media only screen and (max-width: 630px)
+  $new_registerSize: 300px
+  body
+    h1.title
+      font-size: 3.5em
+    h2.author
+      font-size: 1.5em
+
+    div.main_row
+      flex-direction: column
+      div.rhomb_container
+        width: $new_registerSize
+        height: $new_registerSize
+        margin-bottom: 10px
+        left: calc(#{50%} - #{$new_registerSize/2})
+        top: calc(#{50%} - #{$new_registerSize/2})
+
+
+

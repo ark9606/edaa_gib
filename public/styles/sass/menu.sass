@@ -1,0 +1,79 @@
+@import "common"
+@import 'socials'
+
+$socialDivSize: 25vh
+
+$socialBack: gray
+$socialBack_HOVER: darkred
+
+
+
+nav.menu
+  display: flex
+  flex-flow: column nowrap
+  justify-content: space-between
+  align-items: center
+  position: fixed
+  height: 100vh
+  width: $menuSize
+  left: 0
+  z-index: 3
+  background: $menuBack
+  div.menu_row
+    width: $menuSize
+
+    /* logo */
+    &.menu_logo
+      height: $menuSize
+      a
+        display: block
+        width: 100%
+        height: 100%
+        color: black
+
+    /* socials */
+    &.socials_container
+      height: $socialDivSize
+      div.socials
+        height: 100%
+        min-height: 150px
+        margin-top: 0
+        flex-direction: column
+        justify-content: center
+        width: $menuSize
+        a.socials_item
+          margin: 1vh auto
+          svg
+            path
+              transition: .3s
+              fill: $socialBack
+          &:hover
+            svg path
+              fill: $socialBack_HOVER
+
+    /* elements of menu */
+    &.menu_items_container
+      display: flex
+      flex-direction: column
+      align-items: center
+      justify-content: center
+      height: calc(100% - #{$socialDivSize} - #{$menuSize})
+      a.menu_item
+        display: flex
+        align-items: center
+        justify-content: center
+        width: 100%
+        height: 33.3%
+        color: $menuItemClr
+        font: 100 1.1em $fnt_RobotoReg
+        letter-spacing: 0.1em
+        transition: .3s
+        span
+          display: flex
+          align-items: center
+          transform: rotate(-90deg)
+        &:hover
+          color: $menuItemClr_HOVER
+          letter-spacing: 0.15em
+        &.selected
+          color: $menuItemClr_HOVER

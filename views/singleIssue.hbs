@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Github issue browser">
+  <title>GitHub issue browser | EDAA</title>
+  <link rel="stylesheet" href="/styles/css/singleIssue.css">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<h1 class="issue_title">{{issue.title}}</h1>
+{{>userWidget}}
+<a href="{{issue.gitLink}}" target="_blank">Open issue on a GitHub</a>
+{{#if isLabelled}}
+  <div class="issue_labels">
+    <!-- selected labels -->
+    {{#each issue.labels}}
+      <a href="{{generateUrlForLabel this.name}}" class="issue_labels_item">{{this.name}}</a>
+    {{/each}}
+  </div>
+{{/if}}
+
+<div class="issue_body">
+
+  {{{issue.body}}}
+</div>
+
+<div class="issue_comments" id="issue_comments_container">
+  {{#each comments}}
+    <div class="issue_comments_item">
+      <div class="issue_comments_item_header">
+        <div class="issue_comments_item_user_avatar"></div>
+        <div class="issue_comments_item_user_login">{{this.user.login}}</div>
+      </div>
+      <div class="issue_comments_item_body">{{{this.body}}}</div>
+    </div>
+  {{/each}}
+</div>
+{{#if isLogged}}
+<div class="issue_message">
+  <form action="" id="newMessage">
+    <textarea name="text" id="" cols="30" rows="10" style="white-space: pre-wrap;"></textarea>
+    <input type="submit">
+  </form>
+</div>
+{{else}}
+  <h3>Login to chat</h3>
+{{/if}}
+<script>
+  'use strict';
+  let isLogged = "{{isLogged}}" === 'true';
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/scripts/singleIssue.js"></script>
+
+</body>
+</html>

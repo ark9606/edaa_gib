@@ -1,0 +1,190 @@
+@import 'base'
+@import 'particles'
+@import 'menu'
+@import 'socials'
+@import 'showImage'
+@import 'userWidget'
+
+
+$galleryItem_HOVER: rgba(255, 255, 255, 0.5)
+$headerAuthorClr: darkred
+
+body
+  display: flex
+  flex-direction: column
+
+  header.gallery_header
+    display: block
+    margin: 80px auto
+    padding-left: $menuSize
+    font: 100 4em $fnt_RobotoLight
+    color: $headerAuthorClr
+    letter-spacing: 0.1em
+
+  div.gallery
+    margin: 0 auto
+    width: 900px
+    padding-left: $menuSize
+    div.gallery_item
+      width: 100%
+      height: 100%
+      background-size: cover
+      background-repeat: no-repeat
+      background-position: center
+      cursor: pointer
+      &:after
+        display: flex
+        align-items: center
+        justify-content: center
+        content: 'Посмотреть'
+        position: absolute
+        left: 0
+        right: 0
+        top: 0
+        bottom: 0
+        width: 100%
+        height: 100%
+        opacity: 0
+        font: 100 1.1em $fnt_RobotoMed
+        text-decoration: underline
+        letter-spacing: 0.1em
+        background: $galleryItem_HOVER
+        transition: .3s
+        transform: scale(1.3, 1.3)
+      &:hover::after
+        opacity: 1
+        transform: scale(1, 1)
+
+
+  //div.user_container
+  //  position: fixed
+  //  width: $user_width
+  //  height: $user_width
+  //  right: 20px
+  //  top: 20px
+  //  z-index: 2
+  //  div.user
+  //    width: $user_width
+  //    height: $user_width
+  //    transition: .3s
+  //    overflow: hidden
+  //    div.rhomb_user
+  //      border: 2px solid #929292
+  //      div.user_content
+  //        background-color: rgba(146, 146, 146, 0.5)
+  //        background-position: center
+  //        background-size: 65%
+  //        background-repeat: no-repeat
+  //        a.rhomb_shade
+  //          display: flex
+  //          justify-content: center
+  //          width: 100%
+  //          background-color: rgba(146, 146, 146, 0.9)
+  //          font: 600 1em $fnt_RobotoLight
+  //          cursor: pointer
+  //          transition: .5s
+  //          //transition-timing-function: cubic-bezier(0, 0, .93, .13)
+  //          transition-timing-function: ease-out
+  //          color: $userActionTxtClr
+  //          &:hover
+  //            color: #a70000
+  //          &.user_register
+  //            height: calc(50% - 15px)
+  //            padding-bottom: 15px
+  //            align-items: flex-end
+  //            transform: translateY(-100%)
+  //          &.user_login
+  //            height: calc(50% - 12px)
+  //            padding-top: 12px
+  //            transform: translateY(100%)
+  //        &:hover
+  //          a.user_register, a.user_login
+  //            transform: translateY(0)
+  //
+  //        /* inner div for border at bottom */
+  //        div.bottom_border
+  //          height: 49px
+  //          position: absolute
+  //          bottom: 0
+  //          width: 100%
+  //          box-sizing: border-box
+  //          border-top: 2px solid #929292
+  //
+  //
+  //  /* bottom div - hide a part of rhomb */
+  //  div.hide
+  //    position: absolute
+  //    bottom: 0
+  //    width: 100%
+  //    height: 50px
+  //    background: $clr_mainBack
+
+
+
+
+
+@media only screen and (max-width: 1060px)
+  body
+    div.gallery
+      width: 600px
+    //div.user_container
+    //  position: absolute
+    //  left: calc(50% - #{$user_width/2} + #{$menuSize}/2 )
+    header.gallery_header
+      margin-top: 200px
+
+
+@media only screen and (max-width: 710px)
+  body
+    div.gallery
+      width: 500px
+      div.diamonds
+        min-width: auto !important
+        div.diamond-row-wrap
+          div.diamond-row-lower, div.diamond-row-upper
+            div.diamond-box-wrap
+              height: 250px
+              width: 250px
+
+@media only screen and (max-width: 590px)
+  body
+    header.gallery_header
+      font-size: 3em
+    div.gallery
+      width: 400px
+      div.diamonds
+        div.diamond-row-wrap
+          div.diamond-row-lower, div.diamond-row-upper
+            div.diamond-box-wrap
+              height: 200px
+              width: 200px
+
+@media only screen and (max-width: 490px)
+  body
+    div.gallery
+      width: 300px
+      div.diamonds
+        div.diamond-row-wrap
+          div.diamond-row-lower, div.diamond-row-upper
+            div.diamond-box-wrap
+              height: 150px
+              width: 150px
+              div.diamond-box
+                border-width: 5px
+      div.gallery_item:after
+        font-size: .9em
+        letter-spacing: 0.05em
+
+
+@media only screen and (max-width: 390px)
+  body
+    div.gallery
+      width: 260px
+      div.diamonds
+        div.diamond-row-wrap
+          div.diamond-row-lower, div.diamond-row-upper
+            div.diamond-box-wrap
+              height: 130px
+              width: 130px
+              div.diamond-box
+                border-width: 2px

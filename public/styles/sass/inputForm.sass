@@ -1,0 +1,132 @@
+@import "common"
+
+$inputPlaceholder: #9a9a9a
+$form_rowClr1: #FFC996
+$form_rowClr2: #FFBA75
+$form_rowClr3: #FEAC58
+$form_rowClr4: #FF9A36
+$form_rowClr5: #FF9122
+$form_rowClr6: #FF8000
+
+$arrow_size: 200px
+//$arrow_color: #ff9900
+$arrow_color: $form_rowClr4
+$arrow_colorHOVER: #ff5b00
+//$arrow_colorHOVER: #003cff
+
+form.input_form
+  display: flex
+  width: 100%
+  height: 100%
+  flex-flow: column nowrap
+  div.input_form_row
+    flex-basis: 16.667%
+    border-bottom: 2px solid $form_rowClr1
+    text-align: center
+    box-shadow: inset 0 15px 30px 0 rgba(126, 126, 126, 0.1)
+    a
+      color: darkred
+    input
+      width: 50%
+      margin: 0 auto
+      background: transparent
+      border: none
+      outline: none
+      text-align: center
+    input[type='text'], input[type='password']
+      display: flex
+      align-items: flex-end
+      height: 100%
+      font: 400 1.4em $fnt_RobotoLight
+      letter-spacing: 0.15em
+      color: white
+      &::-webkit-input-placeholder
+        color: $inputPlaceholder
+    &:first-child
+      display: flex
+      align-items: flex-end
+      justify-content: center
+      flex-basis: 30%
+
+      box-shadow: none
+      /* logo */
+      font: 600 5em $fnt_RobotoLight
+      letter-spacing: -0.2em
+    &:nth-child(2)
+      display: flex
+      align-items: center
+      justify-content: center
+      border-bottom-color: $form_rowClr1
+      font: 400 1.5em $fnt_RobotoLight
+      letter-spacing: 0.15em
+      color: white
+    &:nth-child(3)
+      border-bottom-color: $form_rowClr2
+    &:nth-child(4)
+      border-bottom-color: $form_rowClr3
+    &:nth-child(5)
+      border-bottom-color: $form_rowClr4
+    &:last-child
+      flex-basis: 30%
+      border-bottom: none
+      overflow: hidden
+      width: 50%
+      margin: 0 auto
+      div.button_container
+        display: flex
+        align-items: center
+        justify-content: center
+        margin: -#{$arrow_size/2} auto 0 auto
+        width: $arrow_size
+        height: $arrow_size
+        transform: rotate(45deg)
+        position: relative
+
+        input[type='submit']
+          position: absolute
+          width: 100%
+          //left: 25%
+          height: 100%
+          cursor: pointer
+        div.arrow
+          width: $arrow_size
+          height: $arrow_size
+          background: $arrow_color
+          //transform: translateY(-60%) rotate(45deg)
+          transform: translate(-20%, -20%)
+          transition: .5s
+          cursor: pointer
+          animation: anim_arrow 2s linear infinite alternate
+        &:hover div.arrow
+          //transform: translateY(-30%) rotate(45deg)
+          transform: translate(0, 0)
+          background-color: $arrow_colorHOVER
+          animation: none
+
+
+/* animation arrow */
+@keyframes anim_arrow
+  0%
+    background-color: $arrow_color
+  100%
+    background-color: $arrow_colorHOVER
+
+@media only screen and (max-width: 1025px)
+  $new_arrow_size: 100px
+
+  div#page main.register div.rhomb div.register_content form.input_form div.input_form_row
+        input[type='text'], input[type='password']
+          font-size: 1em
+        &:first-child
+          font-size: 3em
+        &:nth-child(2)
+          font: 400 1.2em $fnt_RobotoLight
+        &:last-child
+          div.button_container
+            margin: -#{$new_arrow_size/2} auto 0 auto
+            width: $new_arrow_size
+            height: $new_arrow_size
+            div.arrow
+              width: $new_arrow_size
+              height: $new_arrow_size
+              background: $arrow_color

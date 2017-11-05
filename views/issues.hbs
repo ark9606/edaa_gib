@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Github issue browser">
+  <title>GitHub issue browser | EDAA</title>
+  <link rel="stylesheet" href="/styles/css/issues.css">
+  <link rel="shortcut icon" href="/icons/favicon.ico" type="image/x-icon">
+
+</head>
+<body>
+{{#if islabelsSelected}}
+  <div class="selected_labels">
+    <!-- selected labels -->
+    {{#each labels}}
+      <div class="selected_labels_item">{{this}}</div>
+    {{/each}}
+  </div>
+{{/if}}
+{{>userWidget}}
+<div class="issues" id="issue_container">
+
+  {{#if noIssues}}
+    <p>There are no issues</p>
+  {{else}}
+
+    <!-- issues -->
+    {{#each issues}}
+      <div class="issue">
+        <a href="{{generateUrlForIssue this.number}}">{{this.title}}</a>
+
+        <div class="issue_labels">
+          {{#each this.labels}}
+            <a href="{{generateUrlForLabel this.name}}">{{this.name}}</a>
+          {{/each}}
+        </div>
+      </div>
+    {{/each}}
+  {{/if}}
+</div>
+<!-- button load more -->
+{{#if isLoadMoreBtn}}
+  <div id="loadMore">Load more</div>
+{{/if}}
+<div class="repoComments">
+
+</div>
+<script>
+  'use strict';
+  let query = '{{{query}}}';
+  let repo = '{{{repo}}}';
+</script>
+<script src="scripts/issues.js"></script>
+
+</body>
+</html>
