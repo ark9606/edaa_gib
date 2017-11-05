@@ -28,7 +28,7 @@
     <!-- issues -->
     {{#each issues}}
       <div class="issue">
-        <a href="{{generateUrlForIssue this.number}}">{{this.title}}</a>
+        <a href="{{generateUrlForIssue this.number}}"><xmp>{{this.title}}</xmp></a>
 
         <div class="issue_labels">
           {{#each this.labels}}
