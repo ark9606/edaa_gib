@@ -48,6 +48,16 @@ app.use('/profile', profile);
 app.use('/test', test);
 
 
+/** redirect http to https */
+app.use(function requireHTTPS(req, res, next) {
+  if (!req.secure) {
+    return res.redirect('https://' + req.headers.host + req.url);
+  }
+  next();
+});
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   let err = new Error('Not Found');
