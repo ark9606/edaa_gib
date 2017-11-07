@@ -15,6 +15,8 @@ let singleIssue = require('./routes/singleIssue');
 let about = require('./routes/about');
 let profile = require('./routes/profile');
 
+let test = require('./routes/test');
+
 let app = express();
 
 // view engine setup
@@ -42,6 +44,8 @@ app.use('/logout', logout);
 app.use('/oauth', oauth);
 app.use('/about', about);
 app.use('/profile', profile);
+
+app.use('/test', test);
 
 
 // catch 404 and forward to error handler
@@ -111,13 +115,24 @@ io.on('connection', function(client) {
         console.log('New comments');
         console.log(comments);
 
-        comments.forEach(comment =>{
-          comment.body = git.parseMarkdown(comment.body, `${client.request.session.issue.repoOwner}/${client.request.session.issue.repoName}`)
-          client.emit('messages', {
-            comment: comment
-          });
-        });
+        // comments.forEach(comment => {
+        //   comment.body = git.parseMarkdown(comment.body, `${client.request.session.issue.repoOwner}/${client.request.session.issue.repoName}`)
+        //   client.emit('messages', {
+        //     comment: comment
+        //   });
+        // });
 
+        comments.forEach(comment => {
+          // comment.body =
+          git.parseMarkdown(comment.body, `${client.request.session.issue.repoOwner}/${client.request.session.issue.repoName}`)
+          .then(html=>{
+            comment.body = html;
+            client.emit('messages', {
+              comment: comment
+            });
+          });
+
+        });
 
         client.request.session.lastCommentId = comments[comments.length - 1].id;
       }
@@ -166,10 +181,14 @@ io.on('connection', function(client) {
         item.request.session.lastCommentId = comment.id;
       });
       client.request.session.lastCommentId = comment.id;
-      comment.body = git.parseMarkdown(comment.body, `${client.request.session.issue.repoOwner}/${client.request.session.issue.repoName}`);
-      io.emit('messages', {comment});
-      
+      // comment.body = git.parseMarkdown(comment.body, `${client.request.session.issue.repoOwner}/${client.request.session.issue.repoName}`);
+      // io.emit('messages', {comment});
 
+      git.parseMarkdown(comment.body, `${client.request.session.issue.repoOwner}/${client.request.session.issue.repoName}`)
+      .then(html=>{
+        comment.body = html;
+        io.emit('messages', {comment});
+      })
     })
     .catch(err => {
       console.log(err);
@@ -186,14 +205,13 @@ io.on('connection', function(client) {
 
 // every 8 min self-request, HEROKU server must live!
 cron.schedule('0 */8 * * * *', function(){
-	
-    request("http://localhost:3000", function (err, req_res, body) {
-		if (err) {
-			console.error(err);
+   request("http://localhost:3000", function (err, req_res, body) {
+     if (err) {
+       console.error(err);
        return;    }
      console.log('~Callback');
    });
-});
+ });
 /**
  * Listen on provided port, on all network interfaces.
  */

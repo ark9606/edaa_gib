@@ -17,7 +17,7 @@
     <main class="page_content">
       <div class="issue_header">
         <h2>{{repoOwner}} <span class="line">/</span> {{repoName}}</h2>
-        <h1 class="issue_title">{{issue.title}} <span class="issue_number"># {{issue.number}}</span></h1>
+        <h1 class="issue_title">{{issue.title}} <span class="issue_number">#&nbsp;{{issue.number}}</span></h1>
         <a href="{{issue.gitLink}}" target="_blank" class="issueLink clearA" title="View on a GitHub"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="438.549px" height="438.549px" viewBox="0 0 438.549 438.549" style="enable-background:new 0 0 438.549 438.549;"
 	 xml:space="preserve">
@@ -81,6 +81,33 @@
             <a href="{{generateUrlForLabel this.name}}" class="issue_label_item clearA" style="background-color: #{{this.color}}">{{this.name}}</a>
           {{/each}}
         </div>
+
+
+        <details class="relevants">
+          <summary>
+        {{#if isRelevants}}
+            Relevant issues and PRs
+        {{else}}
+            No relevant issues and PRs
+        {{/if}}
+          </summary>
+          {{#if isRelevants}}
+            <div class="relevants_container">
+              {{#each relevants}}
+                  <div class="relevant_item">
+                    <div class="column link_date">
+                      <a href="{{this.html_url}}" class="relevant_item_link clearA" target="_blank" title="Open on GitHub">{{this.title}}</a>
+                      <time datetime="{{dateTimeVal}}">{{dateTimeStr}}</time>
+                    </div>
+                    <div class="column info">
+                      <div class="relevant_type">{{this.type}}</div>
+                      <div class="relevant_state {{#if this.isOpen}} open {{/if}}">{{this.state}}</div>
+                    </div>
+                  </div>
+              {{/each}}
+            </div>
+          {{/if}}
+        </details>
       <div class="issue_user">
         <div class="issue_user_avatar" style="background-image: url({{issue.user.avatar_url}})"></div>
         <div class="issue_user_info">
@@ -127,9 +154,7 @@
           <a href="https://github.com/login/oauth/authorize?client_id=21d5d0355d245494032c&scope=public_repo" id="loginGitHub" class="clearA">Sign in with GitHub to write a message</a>
         {{/if}}
       </div>
-
     </main>
-
   </div>
 </div>
 <script>

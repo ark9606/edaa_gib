@@ -32,6 +32,7 @@ document.getElementById('queryForm').addEventListener('submit', function (e) {
     {
       searchButton.parentNode.classList.remove('load');
 
+
       let data = xhr.response;
       if(data.includes('%NO%'))
       {
@@ -39,7 +40,6 @@ document.getElementById('queryForm').addEventListener('submit', function (e) {
         return;
       }
       let labels = JSON.parse(data);
-      // console.log(labels);
       showLabels(labels);
 
 

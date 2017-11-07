@@ -105,193 +105,137 @@ let getNewCommentsForIssue = function (owner, repo, number, lastCommentId) {
   });
 };
 
-let parseMarkdown = function (text, repo) {
+/**
+ * text: markdown text
+ * repo: associated repo
+ * type: 0 - our parsing (beta v0.1)
+ *       1 - GitHub parsing
+ * */
+let parseMarkdown = function (text, repo, type = 1) {
+  return new Promise(function (resolve) {
+    if( type === 0) {
 
-  /** parse bold text */
-  text = text.replace(/\*\*(.*?)\*\*/gm, "<b>$1</b>");
+      /** parse bold text */
+      text = text.replace(/\*\*(.*?)\*\*/gm, "<strong>$1</strong>");
 
-  /** parse italic text */
-  text = text.replace(/\_(.*?)\_/gm, "<i>$1</i>");
+      /** parse italic text */
+      text = text.replace(/\_(.*?)\_/gm, "<em>$1</em>");
 
-  // text = text.replace(/\({0}https:\/\/github.com\/(.*?)\s{1}/gm, function (str) {
+      /** parse links with Images*/
+      text = text.replace(/\!\[(.*?)\]\((.*?)\)/gm, "<a href='$2' target='_blank'><img src='$2' alt='$1'></a>");
 
-  // text = text.replace(/https:\/\/github.com\/(.*?)\s{1}/gm, function (str) {
-  //   let num = str.substr(str.lastIndexOf('/')+1);
-  //   return `<a href='${str}' class='reference reference_issue' target='_blank'>#${num}</a>`;
-  // });
-
-  /** parse links with Images*/
-  text = text.replace(/\!\[(.*?)\]\((.*?)\)/gm, "<a href='$2' class='link' target='_blank'><img src='$2' alt='$1'></a>");
-
-  /** parse links */
-  text = text.replace(/\[(.*?)\]\((.*?)\)/gm, "<a href='$2' class='link' target='_blank'>$1</a>");
-
-
-  /** parse multiline code text */
-  text = text.replace(/```(.*?)```/gm, "<span class='code'><xmp>$1</xmp></span>");
-  text = text.replace(/``(.*?)``/gm, "<span class='code'><xmp>$1</xmp></span>");
-
-  /** parse inline code text */
-  text = text.replace(/`(.*?)`/gm, "<span class='code'><xmp>$1</xmp></span>");
-
-  // H E A D E R S
-
-  /** parse header-3 text */
-  text = text.replace(/^\#\#\# (.*?)$/gm, "<span class='header header_3'>$1</span>");
-
-  /** parse header-2 text */
-  text = text.replace(/^\#\# (.*?)$/gm, "<span class='header header_2'>$1</span>");
-
-  /** parse header-1 text */
-  text = text.replace(/^\# (.*?)$/gm, "<span class='header header_1'>$1</span>");
-
-  /** parse quote text */
-  text = text.replace(/^\>(.*?)$/gm, "<span class='quote'>$1</span>");
-
-  // L I S T S
-
-  /** check-lists */
-
-  /** parse unchecked lists */
-  text = text.replace(/^\- \[ \](.*?)$/gm, "<span class='list list_check'>$1</span>");
-
-  /** parse checked lists */
-  text = text.replace(/^\- \[x\](.*?)$/gm, "<span class='list list_check checked'>$1</span>");
-
-  /** parse ordered lists */
-  text = text.replace(/^([\d]+\. .*?)$/gm, "<span class='list list_ordered'>$1</span>");
-
-  /** parse unordered lists */
-  text = text.replace(/^\- (.*?)$/gm, "<span class='list list_unordered'>$1</span>");
-
-  //  O T H E R S
-
-  /** parse direct mention to owners/users */
-  // text = text.replace(/^\@(.*?)$/gm, "<a href='https://github.com/$1' class='mention' target='_blank' style='color: greenyellow'>@$1</a>");
-  text = text.replace(/\@(\S+)/gm, "<a href='https://github.com/$1' class='mention' target='_blank'>@$1</a>");
+      /** parse links */
+      text = text.replace(/\[(.*?)\]\((.*?)\)/gm, "<a href='$2' target='_blank'>$1</a>");
 
 
-  /** parse reference to issue */
-  text = text.replace(/\s\#(\d+)\S?/gm, " <a href='https://github.com/"+ repo +"/issues/$1' class='reference reference_issue' target='_blank'>#$1</a>");
+      /** parse multiline code text */
+      text = text.replace(/```(.*?)```/gm, "<code>$1</code>");
+      text = text.replace(/``(.*?)``/gm, "<code>$1</code>");
 
-  text = text.replace(/\s\G\H\-(\d+)\S?/gm, " <a href='https://github.com/"+ repo +"/issues/$1' class='reference reference_issue' target='_blank'>GH-$1</a>");
+      /** parse inline code text */
+      text = text.replace(/`(.*?)`/gm, "<code>$1</code>");
+
+      // H E A D E R S
+
+      /** parse header-3 text */
+      text = text.replace(/^\#\#\# (.*?)$/gm, "<h3'>$1</h3>");
+
+      /** parse header-2 text */
+      text = text.replace(/^\#\# (.*?)$/gm, "<h2>$1</h2>");
+
+      /** parse header-1 text */
+      text = text.replace(/^\# (.*?)$/gm, "<h1>$1</h1>");
+
+      /** parse quote text */
+      text = text.replace(/^\>(.*?)$/gm, "<blockquote>$1</blockquote>");
+
+      // L I S T S
+
+      /** check-lists */
+
+      /** parse unchecked lists */
+      text = text.replace(/^\- \[ \](.*?)$/gm, "<span class='list list_check'>$1</span>");
+
+      /** parse checked lists */
+      text = text.replace(/^\- \[x\](.*?)$/gm, "<span class='list list_check checked'>$1</span>");
+
+      /** parse ordered lists */
+      text = text.replace(/^([\d]+\. .*?)$/gm, "<span class='list list_ordered'>$1</span>");
+
+      /** parse unordered lists */
+      text = text.replace(/^\- (.*?)$/gm, "<span class='list list_unordered'>$1</span>");
+
+      //  O T H E R S
+
+      /** parse direct mention to owners/users */
+      text = text.replace(/\@(\S+)/gm, "<a href='https://github.com/$1' class='user-mention' target='_blank'>@$1</a>");
 
 
+      /** parse reference to issue */
+      text = text.replace(/\s\#(\d+)\S?/gm, " <a href='https://github.com/" + repo + "/issues/$1' class='issue-link' target='_blank'>#$1</a>");
 
-  // text = text.replace(/https:\/\/github.com\/(.*?)\s{1}/gm, " <a href='https://github.com/$1' class='reference reference_issue' target='_blank'>#$1</a>");
-  // text = text.replace(/[^"]https?:\/\/(.*?)[^"]/gm, " <a href='https://$1' target='_blank'>https://$1</a>");
+      text = text.replace(/\s\G\H\-(\d+)\S?/gm, " <a href='https://github.com/" + repo + "/issues/$1' class='issue-link' target='_blank'>GH-$1</a>");
 
-  // text = text.replace(/((https?):\/\/[^"<\s]+)(?![^<>]*>|[^"]*?<\/a)/gm, "<a href='$1' target='_blank'>$1</a>");
-
-  // text = text.replace(/[^(href=("|\'))]https?:\/\/\S+/gim, "<a href='$1' target='_blank'>$1</a>");
-
-
-  // text = text.replace(/<\/?[^>]+>/g,' ').replace(/(https?:\/\/\S+)/gim, "<a href='$1' target='_blank'>$1</a>");
-
-  // text=text.replace(/(?<=('|")) /gim,'').replace(/[^(href=("|\'))]https?:\/\/\S+/gim, "<a href='$1' target='_blank'>$1</a>");
+      /** make pure links clickable */
+      text = text.replace(/(?:('|"))\s+(?=https?)/gim, '\'').replace(/[^(href=("|\'))]https?:\/\/\S+/gim, "<a href='$&' target='_blank'>$&</a>");
 
 
+      /** parse new lines text */
+      text = text.replace(/\r\n/gm, '</br>');
 
 
+      resolve(text);
+    }
+    else {
+      let options = {
+        method: 'POST',
+        uri: `https://api.github.com/markdown`,
+        headers: {
+          'user-agent': 'node.js',
+          'Authorization' : `token ${PERSONAL_ACCESS_TOKEN}`
+        },
+        body: JSON.stringify({
+          text,
+          mode: 'gfm',
+          context: repo
+        })
+      };
+      request(options, function (err, res, body) {
+        if(err) {
+          console.log(err);
+          parseMarkdown(text, repo, 0);
+        }
+        if(body.includes('"message": "You have triggered an abuse')){
+          parseMarkdown(text, repo, 0);
+        }
+        else
+          resolve(body);
 
-
-
-
-
-  // text = text.replace(/https?\:\S+[^("|')](?=[\ ])/gim, "<a href='$&' target='_blank'>$&</a>");
-
-  text=text.replace(/(?:('|"))\s+(?=https?)/gim,'\'').replace(/[^(href=("|\'))]https?:\/\/\S+/gim, "<a href='$&' target='_blank'>$&</a>");
-
-
-
-  //[^\"]
-
-  /** parse new lines text */
-  text = text.replace(/\r\n/gm, '</br>');
-
-  return text;
+      });
+    }
+  });
 };
 
-// let parseMarkdown = function (text, repo) {
-//
-//   /** parse links with Images*/
-//   text = text.replace(/\!\[(.*?)\]\((.*?)\)/gm, "<a href='$2' class='link' target='_blank'>$1 <img src='$2' alt='$1'></a>");
-//
-//   /** parse links */
-//   text = text.replace(/\[(.*?)\]\((.*?)\)/gm, "<a href='$2' class='link' target='_blank'>$1</a>");
-//
-//   /** parse bold text */
-//   text = text.replace(/\*\*(.*?)\*\*/gm, "<b>$1</b>");
-//
-//   /** parse italic text */
-//   text = text.replace(/\_(.*?)\_/gm, "<i>$1</i>");
-//
-//   // remove <i> from links
-//   // text = text.replace(/<a>(.*?)<\/a>/gm, function (match) {
-//   //   console.log(match);
-//   //   return '-'+ match;
-//   // });
-//
-//
-//   /** parse multiline code text */
-//   text = text.replace(/\`\`\`(.*?)\`\`\`/gm, "<span class='code' style='color: blue'>$1</span>");
-//
-//   /** parse inline code text */
-//   text = text.replace(/\`(.*?)\`/gm, "<span class='code' style='color: blue'>$1</span>");
-//
-//   // H E A D E R S
-//
-//   /** parse header-3 text */
-//   text = text.replace(/^\#\#\# (.*?)$/gm, "<span class='header header_3' style='color: red'>$1</span>");
-//
-//   /** parse header-2 text */
-//   text = text.replace(/^\#\# (.*?)$/gm, "<span class='header header_2' style='color: red; font-size: 1.5em'>$1</span>");
-//
-//   /** parse header-1 text */
-//   text = text.replace(/^\# (.*?)$/gm, "<span class='header header_1' style='color: red; font-size: 2em'>$1</span>");
-//
-//   /** parse quote text */
-//   text = text.replace(/^\>(.*?)$/gm, "<span class='quote' style='color: green; text-decoration: underline'>$1</span>");
-//
-//   // L I S T S
-//
-//   /** check-lists */
-//
-//   /** parse unchecked lists */
-//   text = text.replace(/^\- \[ \](.*?)$/gm, "<span class='list list_check' style='text-decoration: overline'>$1</span>");
-//
-//   /** parse checked lists */
-//   text = text.replace(/^\- \[x\](.*?)$/gm, "<span class='list list_check checked' style='color: #ac60ec; text-decoration: overline'>$1</span>");
-//
-//   /** parse ordered lists */
-//   text = text.replace(/^[\d]+\. (.*?)$/gm, "<span class='list list_ordered' style='text-decoration: underline'>$1</span>");
-//
-//   /** parse unordered lists */
-//   text = text.replace(/^\- (.*?)$/gm, "<span class='list list_unordered' style='text-decoration: line-through'>$1</span>");
-//
-//   //  O T H E R S
-//
-//   /** parse direct mention to owners/users */
-//   // text = text.replace(/^\@(.*?)$/gm, "<a href='https://github.com/$1' class='mention' target='_blank' style='color: greenyellow'>@$1</a>");
-//   text = text.replace(/\@(\S+)/gm, "<a href='https://github.com/$1' class='mention' target='_blank' style='color: greenyellow'>@$1</a>");
-//
-//
-//   /** parse reference to issue */
-//   text = text.replace(/\s\#(\d+)\S?/gm, " <a href='https://github.com/"+ repo +"/issues/$1' class='reference reference_issue' target='_blank'>#$1</a>");
-//
-//   text = text.replace(/\s\G\H\-(\d+)\S?/gm, " <a href='https://github.com/"+ repo +"/issues/$1' class='reference reference_issue' target='_blank'>GH-$1</a>");
-//
-//   // text = text.replace(/^\#(\d+)\S?/gm, function () {
-//   //   return "<a href='https://github.com/'+ repo +'/issues/$1' class='reference reference_issue' target='_blank'>#$1</a>"
-//   // });
-//
-//   /** parse new lines text */
-//   text = text.replace(/\r\n/gm, '</br>');
-//
-//
-//
-//   return text;
-// };
+
+
+
+let getRelevantsForIssue = function (owner, repo, number) {
+  return new Promise(function (resolve, reject) {
+    let options = {
+      method: 'GET',
+      uri: `https://api.github.com/repos/${owner}/${repo}/issues/${number}/timeline`,
+      headers: {
+        'user-agent': 'node.js',
+        'Authorization' : `token ${PERSONAL_ACCESS_TOKEN}`,
+        'Accept': 'application/vnd.github.mockingbird-preview'
+      }
+    };
+    request(options, function (err, res, body) {
+      if(err) reject(err);
+      resolve(body);
+    });
+  });
+};
 
 /** requests */
 exports.getLabelsForRepo = getLabelsForRepo;
@@ -300,6 +244,7 @@ exports.getIssue = getIssue;
 exports.getCommentsForIssue = getCommentsForIssue;
 exports.getNewCommentsForIssue = getNewCommentsForIssue;
 exports.getCommentsForRepo = getCommentsForRepo;
+exports.getRelevantsForIssue = getRelevantsForIssue;
 
 /** functions */
 exports.parseMarkdown = parseMarkdown;

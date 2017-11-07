@@ -73,14 +73,34 @@ router.post('/loadcomments', function(req, res, next) {
   git.getCommentsForRepo(`${repoOwner}/${repoName}`, page)
   .then(result=>{
     result = JSON.parse(result);
-    result = result.map(e=>{
-      e.body = git.parseMarkdown(e.body, `${repoOwner}/${repoName}`);
-      return e;
+
+    /** parse markdown for comments */
+    let promiseArray = [];
+    let comments = result.forEach(e=>{
+      promiseArray.push(
+        new Promise((resolve)=> {
+          git.parseMarkdown(e.body, `${repoOwner}/${repoName}`)
+          .then(html=>{e.body = html; resolve(e)})
+        })
+      );
     });
-    res.send( {
-      comments: result,
-      isLoadMoreBtn: result.length === git.repoCommentsPerPage,
+    Promise.all(promiseArray)
+    .then(newComments=>{
+      res.send( {
+        comments: newComments,
+        isLoadMoreBtn: result.length === git.repoCommentsPerPage,
+      });
     });
+
+    // result = result.map(e=>{
+    //   e.body = git.parseMarkdown(e.body, `${repoOwner}/${repoName}`);
+    //   return e;
+    // });
+
+    // res.send( {
+    //   comments: result,
+    //   isLoadMoreBtn: result.length === git.repoCommentsPerPage,
+    // });
   })
   .catch(err=>{
     console.log(err);

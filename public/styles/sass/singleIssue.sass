@@ -81,6 +81,77 @@ div.page
         transition: .3s
         &:hover
           text-decoration: underline
+
+    /* RELEVANT issues and PRs */
+    details.relevants
+      margin: 20px 0
+      font-family: $fnt_RobotoReg
+      letter-spacing: 0.05em
+      div.relevants_container
+        margin: 0 auto
+        background: white
+        width: calc(100% - 2 * #{$mainRadius})
+        border-bottom-left-radius: $mainRadius
+        border-bottom-right-radius: $mainRadius
+        padding: 5px
+        div.relevant_item
+          display: flex
+          justify-content: space-between
+          padding: 10px
+          //margin-top: 10px
+          &:not(:first-child)
+            border-top: 1px solid #412882
+          div.column
+            display: flex
+            flex-direction: column
+            justify-content: space-around
+            &.link_date
+              a
+                color: #462388
+                font-family: $fnt_RobotoMed
+                &:hover
+                  text-decoration: underline
+              time
+                color: #bcbcbc
+                font-family: $fnt_RobotoLight
+            &.info
+              align-items: center
+              color: #616161
+              font-family: $fnt_RobotoLight
+              div.relevant_state
+                color: brown
+                &.open
+                  color: darkgreen
+
+
+      summary
+        display: flex
+        align-items: center
+        outline: none
+        cursor: pointer
+        background: #bb86ff
+        font-size: 1.5em
+        min-height: 50px
+        border-radius: $mainRadius
+        padding: 5px 5px 5px 10px
+        color: white
+        &::-webkit-details-marker
+          display: none
+        &::before
+          display: flex
+          align-items: center
+          justify-content: center
+          content: '+'
+          height: 20px
+          width: 20px
+          margin-right: 10px
+    details.relevants[open] summary::before
+      content: '-'
+
+
+
+
+
     div.issue_user
       display: flex
       padding: 5px
