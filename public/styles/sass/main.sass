@@ -57,6 +57,9 @@ main.page_content
         border-bottom: 2px solid $colorLines
         text-align: center
         color: $fnt_color
+        &::placeholder
+          font-family: $fnt_RobotoLight
+
       input[type='submit']
         margin: 20px 0
 
@@ -92,7 +95,7 @@ main.page_content
         transition: .3s
         box-sizing: border-box
         border-radius: $mainRadius
-        background: transparent
+        background: $groupBack
 
       /* hide checkboxes */
       input[type='checkbox']

@@ -17,7 +17,8 @@ router.post('/repo', function(req, res, next) {
   .then(result => {
     result = JSON.parse(result);
     if('message' in result){
-      res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
+      // res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
+      res.send('%NO%');
       return;
     }
 
@@ -59,8 +60,8 @@ router.post('/repo', function(req, res, next) {
     res.send(labels);
   })
   .catch(err => {
-    // res.send('%NO%');
-    res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
+    res.send('%NO%');
+    // res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
   });
 });
 
@@ -83,8 +84,7 @@ router.post('/loadcomments', function(req, res, next) {
   })
   .catch(err=>{
     console.log(err);
-    // res.send('%NO%');
-    res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
+    res.send('%NO%');
   })
 });
 

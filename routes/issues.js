@@ -102,8 +102,8 @@ router.post('/loadmore', function(req, res, next) {
   })
   .catch(err => {
     console.log(err);
-    // res.send('%NO%');
-    res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
+    res.send('%NO%');
+    // res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
 
   });
 

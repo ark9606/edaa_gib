@@ -148,7 +148,8 @@ function showLabels(labs) {
     item.addEventListener('mouseout', function () {
       let attr = item.getAttribute('data-sel') === 'true';
       if(!attr)
-        item.style.backgroundColor = 'transparent';
+        // item.style.backgroundColor = 'transparent';
+        item.style.backgroundColor = '#f7f7f7';
     });
     item.addEventListener('click', function () {
       let attr = item.getAttribute('data-sel') === 'true';
@@ -158,7 +159,8 @@ function showLabels(labs) {
         item.setAttribute('data-sel', 'true');
       }
       else {
-        item.style.backgroundColor = 'transparent';
+        // item.style.backgroundColor = 'transparent';
+        item.style.backgroundColor = '#f7f7f7';
         item.setAttribute('data-sel', 'false');
       }
     });

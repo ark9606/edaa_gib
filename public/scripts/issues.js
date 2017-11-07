@@ -47,7 +47,7 @@ function showIssues(issues) {
   let div = document.createElement('div');
   let html = '';
   issues.forEach(item => {
-    html += `<div class="issue"><a href="${generateUrlForIssue(item.number)}" class="clearA issueLink"><xmp>${item.title}</xmp></a><div class="issue_comments"><span>${item.comments}</span><img src="/assets/images/chatF.svg" alt=""></div><time datetime="${new Date(item.created_at)}">${new Date(item.created_at).toLocaleString()}</time><div class="issue_labels">`;
+    html += `<div class="issue"><a href="${generateUrlForIssue(item.number)}" class="clearA issueLink"><xmp>${item.title}</xmp></a><div class="issue_comments"><span>${item.comments}</span><img src="/assets/images/chatW.svg" alt=""></div><time datetime="${new Date(item.created_at)}">${new Date(item.created_at).toLocaleString()}</time><div class="issue_labels">`;
     item.labels.forEach(l => {
       html+=`<a href="${generateUrlForLabel(l.name)}" class="issue_label_item clearA" style="border-color: #${l.color}">${l.name}</a>`;
     });
