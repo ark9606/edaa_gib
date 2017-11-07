@@ -57,6 +57,12 @@ function showIssues(issues) {
   while (div.firstChild){
     container.appendChild(div.firstChild)
   }
+  /** OPEN ISSUE PRELOADER */
+  Array.from(document.querySelectorAll('a.issueLink')).forEach(item=>{
+    item.addEventListener('click', function () {
+      this.parentNode.classList.add('load');
+    });
+  });
 }
 /** STYLING LABELS */
 Array.from(document.querySelectorAll('a.issue_label_item')).forEach(item => {
