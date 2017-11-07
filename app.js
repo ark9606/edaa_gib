@@ -17,8 +17,6 @@ let singleIssue = require('./routes/singleIssue');
 let about = require('./routes/about');
 let profile = require('./routes/profile');
 
-let test = require('./routes/test');
-
 let app = express();
 
 // view engine setup
@@ -43,21 +41,10 @@ app.use('/', httpsRedirect());
 app.use('/', index);
 app.use('/issues', issues);
 app.use('/issue', singleIssue);
-
 app.use('/logout', logout);
 app.use('/oauth', oauth);
 app.use('/about', about);
 app.use('/profile', profile);
-
-app.use('/test', test);
-
-
-/** redirect http to https */
-// app.use(function requireHTTPS(req, res, next) {
-//   res.redirect('https://' + req.headers.host + req.url);
-// });
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -123,18 +110,7 @@ io.on('connection', function(client) {
     git.getNewCommentsForIssue(client.request.session.issue.repoOwner, client.request.session.issue.repoName, client.request.session.issue.number, client.request.session.lastCommentId)
     .then(comments => {
       if(comments.length > 0){
-        console.log('New comments');
-        console.log(comments);
-
-        // comments.forEach(comment => {
-        //   comment.body = git.parseMarkdown(comment.body, `${client.request.session.issue.repoOwner}/${client.request.session.issue.repoName}`)
-        //   client.emit('messages', {
-        //     comment: comment
-        //   });
-        // });
-
         comments.forEach(comment => {
-          // comment.body =
           git.parseMarkdown(comment.body, `${client.request.session.issue.repoOwner}/${client.request.session.issue.repoName}`)
           .then(html=>{
             comment.body = html;
@@ -142,13 +118,8 @@ io.on('connection', function(client) {
               comment: comment
             });
           });
-
         });
-
         client.request.session.lastCommentId = comments[comments.length - 1].id;
-      }
-      else {
-        console.log('NO NEW COMMENTS');
       }
     })
     .catch(err=>{
@@ -192,9 +163,6 @@ io.on('connection', function(client) {
         item.request.session.lastCommentId = comment.id;
       });
       client.request.session.lastCommentId = comment.id;
-      // comment.body = git.parseMarkdown(comment.body, `${client.request.session.issue.repoOwner}/${client.request.session.issue.repoName}`);
-      // io.emit('messages', {comment});
-
       git.parseMarkdown(comment.body, `${client.request.session.issue.repoOwner}/${client.request.session.issue.repoName}`)
       .then(html=>{
         comment.body = html;

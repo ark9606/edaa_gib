@@ -28,7 +28,6 @@ router.get('/:owner/:repo/:number', function(req, res, next) {
       res.render('error', {message: 'Something bad happened', error:{status: 'No such issue'}});
       return;
     }
-    // result.body = git.parseMarkdown(result.body, `${repoOwner}/${repoName}`);
     git.parseMarkdown(result.body, `${repoOwner}/${repoName}`)
     .then(html => {
       result.body = html;
@@ -36,7 +35,6 @@ router.get('/:owner/:repo/:number', function(req, res, next) {
 
     result.gitLink = `https://github.com/${repoOwner}/${repoName}/issues/${number}`;
     issue = result;
-    // return git.getCommentsForIssue(repoOwner, repoName, number, pageCommentsCount);
     return git.getRelevantsForIssue(repoOwner, repoName, number)
   })
   .then(result => {
@@ -63,17 +61,11 @@ router.get('/:owner/:repo/:number', function(req, res, next) {
   })
   .then(result => {
     let comments = JSON.parse(result);
-    // console.log(comments);
+
     /** save owner repo number */
     req.session.issue = {
       repoOwner, repoName, number
     };
-
-    // /** parse markdown for comments */
-    // comments = comments.map(e=>{
-    //   e.body = git.parseMarkdown(e.body, `${repoOwner}/${repoName}`);
-    //   return e;
-    // });
 
     /** parse markdown for comments */
     let promiseArray = [];
@@ -127,47 +119,6 @@ router.get('/:owner/:repo/:number', function(req, res, next) {
         }
       });
     })
-
-
-    // let realUser = {
-    //   login: '',
-    //   url: '',
-    //   avatar: '',
-    // };
-    // if(comments.length> 0)
-    //   lastCommentId = comments[comments.length-1].id;
-    //
-    // req.session.lastCommentId = lastCommentId;
-    //
-    // if(req.session.user !== undefined){
-    //   realUser = {
-    //     login: req.session.user.login,
-    //     url: req.session.user.html_url,
-    //     avatar: req.session.user.avatar_url
-    //   }
-    // }
-    //
-    // res.render('singleIssue', {
-    //   realUser: realUser,
-    //   repoOwner,
-    //   repoName,
-    //   isLogged : !!req.session.user,
-    //   issue: issue,
-    //   comments: comments,
-    //   isRelevants,
-    //   relevants,
-    //   helpers: {
-    //     generateUrlForLabel: function(name) {
-    //       return `/issues?q=label:${name.includes(' ')? `"${name}"`: name}+repo:${repoOwner}/${repoName}&page=1`
-    //     },
-    //     parseDate(date){
-    //       return new Date(date).toLocaleString();
-    //     },
-    //     parseDateVal(date){
-    //       return new Date(date);
-    //     },
-    //   }
-    // });
 
   })
   .catch(err => {

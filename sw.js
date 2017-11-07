@@ -22,7 +22,6 @@ self.addEventListener('install', e => {
         '/styles/css/profile.css',
         '/styles/css/singleIssue.css',
         '/scripts/index.js',
-        '/scripts/about.js',
         '/scripts/issues.js',
         '/scripts/preloaders.js',
         '/scripts/singleIssue.js'

@@ -61,7 +61,6 @@ router.post('/repo', function(req, res, next) {
   })
   .catch(err => {
     res.send('%NO%');
-    // res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
   });
 });
 
@@ -91,16 +90,6 @@ router.post('/loadcomments', function(req, res, next) {
         isLoadMoreBtn: result.length === git.repoCommentsPerPage,
       });
     });
-
-    // result = result.map(e=>{
-    //   e.body = git.parseMarkdown(e.body, `${repoOwner}/${repoName}`);
-    //   return e;
-    // });
-
-    // res.send( {
-    //   comments: result,
-    //   isLoadMoreBtn: result.length === git.repoCommentsPerPage,
-    // });
   })
   .catch(err=>{
     console.log(err);

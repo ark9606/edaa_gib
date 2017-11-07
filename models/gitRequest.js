@@ -179,10 +179,8 @@ let parseMarkdown = function (text, repo, type = 1) {
       /** make pure links clickable */
       text = text.replace(/(?:('|"))\s+(?=https?)/gim, '\'').replace(/[^(href=("|\'))]https?:\/\/\S+/gim, "<a href='$&' target='_blank'>$&</a>");
 
-
       /** parse new lines text */
       text = text.replace(/\r\n/gm, '</br>');
-
 
       resolve(text);
     }
@@ -210,7 +208,6 @@ let parseMarkdown = function (text, repo, type = 1) {
         }
         else
           resolve(body);
-
       });
     }
   });

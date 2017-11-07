@@ -20,11 +20,7 @@ router.get('/', function(req, res, next) {
   git.getIssuesForLabels(req.query.q, currentPage)
   .then(result => {
     result = JSON.parse(result);
-    
-    // result.items = result.items.map(e =>{
-    //   e.labels = e.labels.filter(l => !selectedLabels.includes(l.name) );
-    //   return e;
-    // });
+
     result.items = result.items.map(e =>{
       e.labels = e.labels.filter(l => {
 
@@ -37,7 +33,6 @@ router.get('/', function(req, res, next) {
         }
         return (!simpleSelectedLabels.includes(l.name));
       });
-      // e.created_at = new Date(e.created_at).toLocaleString();
       return e;
     });
     console.log(result);
@@ -56,7 +51,6 @@ router.get('/', function(req, res, next) {
       repo: repo,
       helpers: {
         generateUrlForLabel: function(name) {
-          // name = name.includes(':')? `"${name}"`: name;
           return `/issues?q=label:${name.includes(' ')? `"${name}"`: name}+repo:${repo}&page=1`
         },
         generateUrlForIssue: function(number) {
@@ -73,7 +67,6 @@ router.get('/', function(req, res, next) {
   })
   .catch(err => {
     console.log(err);
-    // res.send('Error');
     res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
 
   });
@@ -103,8 +96,6 @@ router.post('/loadmore', function(req, res, next) {
   .catch(err => {
     console.log(err);
     res.send('%NO%');
-    // res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
-
   });
 
 });
