@@ -162,6 +162,9 @@ io.on('connection', function(client) {
     })
     .then((result) =>{
       let comment = JSON.parse(result);
+	  io.sockets.clients().forEach(item=>{
+        item.request.session.lastCommentId = comment.id;
+      });
       client.request.session.lastCommentId = comment.id;
       comment.body = git.parseMarkdown(comment.body, `${client.request.session.issue.repoOwner}/${client.request.session.issue.repoName}`);
       io.emit('messages', {comment});
