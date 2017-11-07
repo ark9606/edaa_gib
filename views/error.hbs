@@ -1,3 +1,31 @@
-<h1>{{message}}</h1>
-<h2>{{error.status}}</h2>
-<pre>{{error.stack}}</pre>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Github issue browser">
+  <title>Error | EDAA</title>
+  <link rel="stylesheet" href="/styles/css/error.css">
+  <link rel="shortcut icon" href="/favicon.ico"  type="image/x-icon">
+</head>
+<body>
+<div class="page_wrapper">
+  {{>header}}
+  <div class="page">
+    <main class="page_content">
+
+      <div>
+        <h1>Errors happens...</h1>
+        <h2>{{message}}</h2>
+        <h2>{{error.status}}</h2>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="/scripts/signInGit.js"></script>
+
+</body>
+</html>
+
+

@@ -4,47 +4,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Github issue browser">
-  <title>GitHub issue browser | EDAA</title>
+  <title>Issues | EDAA</title>
   <link rel="stylesheet" href="/styles/css/issues.css">
-  <link rel="shortcut icon" href="/icons/favicon.ico" type="image/x-icon">
-
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body>
-{{#if islabelsSelected}}
-  <div class="selected_labels">
-    <!-- selected labels -->
-    {{#each labels}}
-      <div class="selected_labels_item">{{this}}</div>
-    {{/each}}
-  </div>
-{{/if}}
-{{>userWidget}}
-<div class="issues" id="issue_container">
+<div class="back"></div>
+<div class="page_wrapper">
+  {{>header}}
 
-  {{#if noIssues}}
-    <p>There are no issues</p>
-  {{else}}
+<div class="page">
 
-    <!-- issues -->
-    {{#each issues}}
-      <div class="issue">
-        <a href="{{generateUrlForIssue this.number}}"><xmp>{{this.title}}</xmp></a>
+  {{#if islabelsSelected}}
+    <div class="selected_labels">
+      <!-- selected labels -->
+    {{#if noIssues}}
+    {{else}}
+      {{#each labels}}
+        <div class="selected_labels_item" style="background-color: #{{this.color}}">{{this.name}}</div>
+      {{/each}}
+    {{/if}}
 
-        <div class="issue_labels">
-          {{#each this.labels}}
-            <a href="{{generateUrlForLabel this.name}}">{{this.name}}</a>
-          {{/each}}
+    </div>
+  {{/if}}
+  <div class="issues" id="issue_container">
+
+    {{#if noIssues}}
+      <p>There are no issues for selected labels :(</p>
+    {{else}}
+      <h1>Issues and Pull requests<span>total {{total_count}}</span></h1>
+
+      <!-- issues -->
+      {{#each issues}}
+        <div class="issue">
+          <a href="{{generateUrlForIssue this.number}}" class="clearA issueLink"><xmp>{{this.title}}</xmp></a>
+          <div class="issue_comments"><span>{{this.comments}}</span><img src="/assets/images/chatW.svg" alt=""></div>
+          <time datetime="{{parseDateVal this.created_at}}">{{parseDate this.created_at}}</time>
+          <div class="issue_labels">
+            {{#each this.labels}}
+              <a href="{{generateUrlForLabel this.name}}" class="issue_label_item clearA" style="border-color: #{{this.color}}">{{this.name}}</a>
+            {{/each}}
+          </div>
         </div>
-      </div>
-    {{/each}}
+      {{/each}}
+    {{/if}}
+  </div>
+  <!-- button load more -->
+  {{#if isLoadMoreBtn}}
+    <div id="loadMore" class="button">Load more</div>
   {{/if}}
 </div>
-<!-- button load more -->
-{{#if isLoadMoreBtn}}
-  <div id="loadMore">Load more</div>
-{{/if}}
-<div class="repoComments">
-
 </div>
 <script>
   'use strict';
@@ -52,6 +61,8 @@
   let repo = '{{{repo}}}';
 </script>
 <script src="scripts/issues.js"></script>
+<!--<script src="/scripts/signInGit.js"></script>-->
 
 </body>
+
 </html>

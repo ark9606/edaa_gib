@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Github issue browser">
+  <title>About us | EDAA</title>
+  <link rel="stylesheet" href="/styles/css/profile.css">
+  <link rel="shortcut icon" href="/favicon.ico"  type="image/x-icon">
+</head>
+<body>
+<div class="back"></div>
+
+<div class="page_wrapper">
+  {{>header}}
+  <div class="page">
+    <main class="page_content">
+      <div class="profile_div">
+        <h1>Profile</h1>
+        <div class="user_info">
+          <div class="user_avatar" style="background-image: url({{user.avatar_url}})"></div>
+          <div class="user_desc">
+            <span>{{user.name}}</span>
+            <span>{{user.login}}</span>
+            <span>{{user.email}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="user_buttons">
+        <a href="{{user.profile_url}}" class="clearA button">Profile on a GitHub</a>
+        <a href="/logout" class="clearA button">Logout</a>
+      </div>
+
+
+
+
+
+    </main>
+  </div>
+</div>
+
+</body>
+</html>
+

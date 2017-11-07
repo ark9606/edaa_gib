@@ -12,6 +12,8 @@ let issues = require('./routes/issues');
 let logout = require('./routes/logout');
 let oauth = require('./routes/oauth');
 let singleIssue = require('./routes/singleIssue');
+let about = require('./routes/about');
+let profile = require('./routes/profile');
 
 let app = express();
 
@@ -38,6 +40,8 @@ app.use('/issue', singleIssue);
 
 app.use('/logout', logout);
 app.use('/oauth', oauth);
+app.use('/about', about);
+app.use('/profile', profile);
 
 
 // catch 404 and forward to error handler
@@ -87,17 +91,57 @@ const server = http.createServer(app);
 
 let io = require('socket.io')(server);
 
+let cron = require('node-cron');
+
 io.use(function(socket, next) {
   sessionMiddleware(socket.request, socket.request.res, next);
 });
 
 io.on('connection', function(client) {
-  console.log('Client connected...');
-  if(client.request.session.user === undefined || client.request.session.issue === undefined) { console.log("DISCONNECTED"); return; }
+  console.log('New client...');
+  if(client.request.session.issue === undefined) {
+    console.log("NO ISSUE");
+    return;
+  }
+  /** CREATE A TASK FOR CHECKING NEW COMMENTS ON GIT */
+  client.request.session.task = cron.schedule('*/5 * * * * *', function () {
+    git.getNewCommentsForIssue(client.request.session.issue.repoOwner, client.request.session.issue.repoName, client.request.session.issue.number, client.request.session.lastCommentId)
+    .then(comments => {
+      if(comments.length > 0){
+        console.log('New comments');
+        console.log(comments);
+
+        comments.forEach(comment =>{
+          comment.body = git.parseMarkdown(comment.body, `${client.request.session.issue.repoOwner}/${client.request.session.issue.repoName}`)
+          client.emit('messages', {
+            comment: comment
+          });
+        });
+
+
+        client.request.session.lastCommentId = comments[comments.length - 1].id;
+      }
+      else {
+        console.log('NO NEW COMMENTS');
+      }
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+  });
+  client.request.session.task.start();
+  client.on('disconnect', function () {
+    client.request.session.task.destroy();
+    console.log(`User is DISCONNECTED`);
+  });
+
+  if(client.request.session.user === undefined ) {
+    console.log("NO AUTHORIZED GIT");
+    return;
+  }
 
   client.on('join', function(data) {
-    console.log('CLIENT JOINED');
-
+    console.log(`Client ${client.request.session.user.login} is JOINED`);
   });
   client.on('send', function (data) {
     let reqBody = JSON.stringify({body: data.message});
@@ -114,31 +158,37 @@ io.on('connection', function(client) {
       request(options, function (err, res, body) {
         if(err) reject(err);
         resolve(body);
-
       });
     })
-    .then(() =>{
-      io.emit('messages', {message: git.parseMarkdown(data.message, `${client.request.session.issue.repoOwner}/${client.request.session.issue.repoName}`),
-                            login: client.request.session.user.login});    })
-    .catch(err=>{
+    .then((result) =>{
+      let comment = JSON.parse(result);
+      client.request.session.lastCommentId = comment.id;
+      comment.body = git.parseMarkdown(comment.body, `${client.request.session.issue.repoOwner}/${client.request.session.issue.repoName}`);
+      io.emit('messages', {comment});
+    })
+    .catch(err => {
       console.log(err);
     })
-
   });
+
+
 });
 
 
-let cron = require('node-cron');
+
+
+
 
 // every 8 min self-request, HEROKU server must live!
-// cron.schedule('0 */8 * * * *', function(){
-//   request("http://localhost:3000", function (err, req_res, body) {
-//     if (err) {
-//       console.error(err);
-//       return;    }
-//     console.log('~Callback');
-//   });
-// });
+cron.schedule('0 */8 * * * *', function(){
+	
+    request("http://localhost:3000", function (err, req_res, body) {
+		if (err) {
+			console.error(err);
+       return;    }
+     console.log('~Callback');
+   });
+});
 /**
  * Listen on provided port, on all network interfaces.
  */

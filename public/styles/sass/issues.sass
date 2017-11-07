@@ -1,99 +1,147 @@
 @import 'base'
+@import "header"
 
-$rhombOverlay: rgba(146, 146, 146, 0.71)
+//$issueBack: #efefef
+$issueBack: #ffe5c7
 
-$rhombBack1: #FFBA75
-$rhombBack2: #FEAC58
-$rhombBack3: #FF9A36
-
-$userActionTxtClr: #fff
-$user_width: 200px
-
-body
-  form#labels
+div.page
+  div.selected_labels
     display: flex
     flex-flow: row wrap
-    justify-content: center
     align-items: center
-    padding: 20px
-    width: calc(100% - 40px)
-    label
-      margin: 10px auto
-    div.label_group
+    margin: 20px auto 0 auto
+    width: calc(100% - 20px)
+    max-width: 800px
+    padding: 10px
+    div.selected_labels_item
       display: flex
-      flex-flow: row wrap
-      border: 2px solid black
-      padding: 20px
-      width: calc(100% - 40px)
-      margin: 10px 0
-      position: relative
-      span.label_group_name
-        display: block
-        position: absolute
-        top: -5px
-        left: 0
-        background: white
-        padding: 5px
+      align-items: center
+      justify-content: center
+      text-align: center
+      border-radius: $mainRadius
+      min-height: 30px
+      padding: 5px 10px
+      background: red
+      font-family: $fnt_RobotoLight
+      letter-spacing: 0.05em
+      transform: scale(0.5, 0.5)
+      margin: 5px
+      animation: anim_label .5s forwards
+  div#issue_container
+    max-width: 800px
+    margin: 20px auto 0 auto
+    height: 100%
 
+    /* message: NO ISSUES */
+    &>p
+      height: 100%
+      font: 400 1.7em $fnt_RobotoReg
+      letter-spacing: 0.1em
+      text-align: center
+      color: gray
 
-
-
-
-
-@media only screen and (max-width: 1520px)
-  $new_registerSize: 400px
-  body
-    div.main_row
-      div.rhomb_container
-        width: $new_registerSize
-        height: $new_registerSize
-        left: calc(#{50%} - #{$new_registerSize/2})
-        top: calc(#{50%} - #{$new_registerSize/2})
-
-@media only screen and (max-width: 1220px)
-  $new_registerSize: 300px
-  body
-    div.main_row
-      div.rhomb_container
-        width: $new_registerSize
-        height: $new_registerSize
-        left: calc(#{50%} - #{$new_registerSize/2})
-        top: calc(#{50%} - #{$new_registerSize/2})
-
-@media only screen and (max-width: 1000px)
-  body
-    div.user_container
-      position: absolute
-      left: calc(50% - #{$user_width/2})
-    h1.title
-      margin-top: 200px
-
-@media only screen and (max-width: 910px)
-  $new_registerSize: 200px
-  body
-    div.main_row
-      div.rhomb_container
-        width: $new_registerSize
-        height: $new_registerSize
-        left: calc(#{50%} - #{$new_registerSize/2})
-        top: calc(#{50%} - #{$new_registerSize/2})
-
-@media only screen and (max-width: 630px)
-  $new_registerSize: 300px
-  body
-    h1.title
-      font-size: 3.5em
-    h2.author
+    &>h1
+      display: flex
+      align-items: center
+      justify-content: space-between
+      font-family: $fnt_RobotoReg
       font-size: 1.5em
+      letter-spacing: 0.1em
+      margin-bottom: 20px
+      padding-bottom: 10px
+      border-bottom: 2px solid gray
+      span
+        font-family: $fnt_RobotoLight
+        font-weight: 100
+        color: #727272
+    div.issue
+      width: calc(100% - 20px)
+      padding: 10px
+      margin-bottom: 20px
+      border-radius: $mainRadius
+      background: $issueBack
+      min-height: 60px
+      position: relative
+      &.load
+        &::after
+          position: absolute
+          content: ''
+          display: block
+          width: 20px
+          height: 20px
+          right: 60px
+          top: calc(50% - 10px)
+          border: 2px solid white
+          border-bottom-color: black
+          border-radius: 50%
+          animation: anim_issue_preloader .5s linear infinite
 
-    div.main_row
-      flex-direction: column
-      div.rhomb_container
-        width: $new_registerSize
-        height: $new_registerSize
-        margin-bottom: 10px
-        left: calc(#{50%} - #{$new_registerSize/2})
-        top: calc(#{50%} - #{$new_registerSize/2})
+      a.issueLink
+        xmp
+          color: black
+          font-family: $fnt_RobotoMed
+          letter-spacing: 0.07em
+          margin-left: 5px
+          word-break: break-all
+          white-space: pre-wrap
+          &:hover
+            text-decoration: underline
+      time
+        display: flex
+        align-items: center
+        flex-basis: 50%
+        color: gray
+        margin-left: 10px
+        margin-top: 5px
+      div.issue_comments
+        display: flex
+        align-items: center
+        justify-content: center
+        position: absolute
+        right: 10px
+        top: 0
+        bottom: 0
+        &>span
+          display: flex
+          align-items: flex-start
+          height: 20px
+          font-family: $fnt_RobotoLight
+          font-size: .9em
+          margin-right: 5px
+        &>img
+          width: 20px
+          height: 20px
+      div.issue_labels
+        display: flex
+        flex-wrap: wrap
+        align-items: center
+        margin-left: 10px
+        margin-top: 5px
+        a.issue_label_item
+          display: flex
+          align-items: center
+          justify-content: center
+          text-align: center
+          border-radius: $mainRadius
+          min-height: 20px
+          padding: 5px 10px
+          font-family: $fnt_RobotoLight
+          font-size: .9em
+          color: black
+          letter-spacing: 0.05em
+          margin: 5px
+          border: 2px solid greenyellow
+          transition: .3s
+          box-sizing: border-box
+  div#loadMore
+    margin: 0 auto 40px auto
+
+@keyframes anim_issue_preloader
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
+
 
 
 

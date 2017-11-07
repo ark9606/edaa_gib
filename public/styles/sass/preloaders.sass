@@ -1,0 +1,107 @@
+@import "base"
+
+$pagePreloaderBack: #fff
+$spinnerCircleClr: #b8b9b9
+$spinnerBorderClr: #f24c43
+$spinnerSize: 75px
+$spinnerWidth: 5px
+
+$preloaderTitleClr: #f24c43
+$preloaderTitleHeight: 100px
+
+.page_preloader
+  display: flex
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  width: 100%
+  height: 100%
+  /* max z-index - menu = 10 */
+  z-index: 11
+  background: $pagePreloaderBack
+
+  /* for hide animation */
+  transition: .3s
+  visibility: visible
+  opacity: 1
+  .page_preloader_content
+    position: relative
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    width: 100%
+    height: 100%
+    transition: .5s
+    &.down
+      transform: translateY(60vh)
+
+    .page_preloader_title
+      //flex-basis: 50%
+      display: flex
+      //align-items: flex-end
+      align-items: center
+      justify-content: center
+      color: $preloaderTitleClr
+      //font: 400 5em $fnt_RobotoMed
+      font: 900 5em 'Calibri'
+      letter-spacing: 0.2em
+      background-color: $pagePreloaderBack
+      border-radius: $mainRadius
+      border: 10px solid #ff7a4a
+      //background-color: $good_gray
+      z-index: 2
+      width: 320px
+      height: 100px
+      text-align: center
+      animation: anim_page_preloader_title_fade 5s infinite alternate
+    svg#lapka
+      z-index: 1
+      display: block
+      position: absolute
+      top: 50vh
+      height: 50vh
+      width: auto
+      min-width: 158px
+      transition: .5s
+      transform: translateY(50vh)
+      &.up
+        transform: translateY(0)
+
+  .preloader_spinner
+    margin: auto
+    width: $spinnerSize
+    height: $spinnerSize
+    border-radius: 50%
+    border: 5px solid $spinnerCircleClr
+    border-bottom-color: $spinnerBorderClr
+    animation: anim_spin 1.5s linear infinite
+  /* when page is loaded */
+  &.done
+    opacity: 0
+    visibility: hidden
+
+/* animations */
+@keyframes anim_spin
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
+
+/* PAGE PRELOADER */
+@keyframes anim_page_preloader_title_fade
+  0%
+    color: $preloaderTitleClr
+  25%
+    color: #f279e7
+  50%
+    color: #8582f2
+  75%
+    color: #84eaf2
+  100%
+    color: #8cf286
+
+
+

@@ -4,10 +4,7 @@ const router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  if(req.session.user){
-    req.session.user = undefined;
-  }
-  res.redirect('/');
+  res.render('about',{isLogged : !!req.session.user,});
 });
 
 module.exports = router;

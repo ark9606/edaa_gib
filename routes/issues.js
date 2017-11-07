@@ -7,29 +7,47 @@ const router = express.Router();
 router.get('/', function(req, res, next) {
   let currentPage = parseInt(req.query.page);
   if(isNaN(currentPage)){
-    res.send('Error: no such page');
+    res.render('error', {message: 'Something bad happened', error:{status: 'Error: no such page'}});
     return;
   }
   let query = req.query.q.substr(0, req.query.q.indexOf('repo:'));
   let repo = req.query.q.substr(req.query.q.indexOf('repo:') + 5);
 
   let selectedLabels = query.replace('label:','').split('label:').map(e=>e.replace(/"/g, '').trim());
-  // console.log('selectedLabels');
-  // console.log(selectedLabels);
+
+  // save for next easy checking
+  let simpleSelectedLabels = Array.from(selectedLabels);
   git.getIssuesForLabels(req.query.q, currentPage)
   .then(result => {
     result = JSON.parse(result);
     
+    // result.items = result.items.map(e =>{
+    //   e.labels = e.labels.filter(l => !selectedLabels.includes(l.name) );
+    //   return e;
+    // });
     result.items = result.items.map(e =>{
-      e.labels = e.labels.filter(l => !selectedLabels.includes(l.name) );
+      e.labels = e.labels.filter(l => {
+
+        // get colors for labels
+        if(selectedLabels.includes(l.name)){
+          selectedLabels[selectedLabels.indexOf(l.name)] = {
+            name: l.name,
+            color: l.color
+          }
+        }
+        return (!simpleSelectedLabels.includes(l.name));
+      });
+      // e.created_at = new Date(e.created_at).toLocaleString();
       return e;
     });
+    console.log(result);
     res.render('issues', {
       isLogged : !!req.session.user,
 
       labels: selectedLabels,
       islabelsSelected: query.length > 0,
 
+      total_count: result.total_count,
       issues: result.items,
       noIssues: result.total_count === 0,
 
@@ -43,13 +61,21 @@ router.get('/', function(req, res, next) {
         },
         generateUrlForIssue: function(number) {
           return `/issue/${repo}/${number}`;
-        }
+        },
+        parseDate(date){
+          return new Date(date).toLocaleString();
+        },
+        parseDateVal(date){
+          return new Date(date);
+        },
       }
     });
   })
   .catch(err => {
     console.log(err);
-    res.send('Error');
+    // res.send('Error');
+    res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
+
   });
 
 });
@@ -76,7 +102,9 @@ router.post('/loadmore', function(req, res, next) {
   })
   .catch(err => {
     console.log(err);
-    res.send('%NO%');
+    // res.send('%NO%');
+    res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
+
   });
 
 });

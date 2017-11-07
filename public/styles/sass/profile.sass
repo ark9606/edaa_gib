@@ -1,0 +1,57 @@
+@import 'base'
+@import "header"
+
+$rhombOverlay: rgba(146, 146, 146, 0.71)
+
+$formLabelHeight: 100px
+
+main.page_content
+  max-width: 800px
+  margin: 0 auto
+  div.profile_div
+    padding: 10px 10px 20px 10px
+    box-sizing: border-box
+    border-radius: $mainRadius
+    background: white
+    margin-top: 20px
+    margin-bottom: 10px
+    &>h1
+      font: 400 2.5em $fnt_RobotoReg
+      letter-spacing: 0.05em
+      margin: 0 0 20px 0
+      padding-bottom: 5px
+      box-sizing: border-box
+      border-bottom: 2px solid blue
+    div.user_info
+      display: flex
+      align-items: center
+      justify-content: center
+      flex-flow: row wrap
+      div.user_avatar
+        margin: 0 auto
+        height: 200px
+        width: 200px
+        background-size: cover
+        background-repeat: no-repeat
+        background-position: center
+        border-radius: $mainRadius
+      div.user_desc
+        margin: 0 auto
+        display: flex
+        flex-direction: column
+        //align-items: center
+        justify-content: space-around
+        span
+          font: 400 1.4em $fnt_RobotoReg
+          letter-spacing: 0.05em
+          color: blue
+          text-align: center
+          margin: 5px 0
+  div.user_buttons
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    justify-content: space-around
+    a
+      width: 200px
+      margin: 10px 0

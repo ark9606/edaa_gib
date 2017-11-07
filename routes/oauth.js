@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
   new Promise(function (resolve, reject) {
     let options = {
       method: 'POST',
-      uri: `https://github.com/login/oauth/access_token?client_id=93c906b21452e92cb0a9&client_secret=8ccaadcc3c30032787b2513eaa40bcee0ab9f833&code=${code}`,
+      uri: `https://github.com/login/oauth/access_token?client_id=21d5d0355d245494032c&client_secret=e2fd60a6678798222889f47110e4b8b4261440c4&code=${code}`,
       headers: {'user-agent': 'node.js'}
     };
     request(options, function (err, res, body) {
@@ -42,7 +42,9 @@ router.get('/', function(req, res, next) {
     result = JSON.parse(result);
 
     if(!('login' in result)){
-      res.send("Authorization Error");
+      // res.send("Authorization Error");
+      res.render('error', {message: 'Authorization error', error:{status: 'Try again later'}});
+
       return;
     }
     let user = {
@@ -58,7 +60,12 @@ router.get('/', function(req, res, next) {
     req.session.user = user;
 
     /** return to home request*/
-    res.redirect('/');
+    console.log('PDPDPD');
+    console.log(req.session.myRedirect_url);
+    if(req.session.myRedirect_url !== undefined)
+      res.redirect(req.session.myRedirect_url);
+    else
+      res.redirect('/profile');
 
     // let reqBody = JSON.stringify({body: 'New V3 test!!'});
     // console.log(reqBody);
@@ -87,6 +94,7 @@ router.get('/', function(req, res, next) {
   // })
   .catch(err=>{
     console.log(err);
+    res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
   })
 
 });

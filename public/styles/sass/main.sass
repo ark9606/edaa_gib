@@ -1,99 +1,226 @@
 @import 'base'
+@import "header"
+@import "preloaders"
 
 $rhombOverlay: rgba(146, 146, 146, 0.71)
 
-$rhombBack1: #FFBA75
-$rhombBack2: #FEAC58
-$rhombBack3: #FF9A36
+$formSearchBack: #e4f5fc
 
-$userActionTxtClr: #fff
-$user_width: 200px
+$colorLines: black
+$formLabelHeight: 100px
 
-body
+$groupBack: #f7f7f7
+
+$commentsBack: #88868b
+$commentsUrl: #fcfeff
+
+
+main.page_content
+  /* owner / repo  input */
+  div.form_wrapper
+    display: flex
+    align-items: center
+    justify-content: center
+    margin-top: 50px
+    border-radius: $mainRadius
+    //background: mediumvioletred
+    background: $formSearchBack
+    min-height: $formLabelHeight
+    form#queryForm
+      display: flex
+      justify-content: center
+      flex-wrap: wrap
+      align-items: center
+      div.input_wrapper
+        display: flex
+        align-items: center
+        justify-content: center
+        margin: 20px 0
+        div.line
+          align-self: flex-end
+          height: 2px
+          width: 40px
+          background: $fnt_color
+          transform: rotate(-45deg)
+          margin-bottom: 15px
+      input
+        height: 40px
+        border: none
+        outline: none
+        margin: 0 20px
+        font-family: $fnt_RobotoReg
+        box-sizing: border-box
+        font-size: 1.2em
+      input[type='text']
+        width: 200px
+        background: transparent
+        border-bottom: 2px solid $colorLines
+        text-align: center
+        color: $fnt_color
+      input[type='submit']
+        margin: 20px 0
+
+
   form#labels
     display: flex
     flex-flow: row wrap
     justify-content: center
     align-items: center
     padding: 20px
-    width: calc(100% - 40px)
+    max-width: 700px
+    margin: 0 auto
+
     label
       margin: 10px auto
+      width: 180px
+      height: auto
+      cursor: pointer
+      border-radius: $mainRadius
+      font-family: $fnt_RobotoReg
+      letter-spacing: 0.05em
+      transform: scale(0.5, 0.5)
+      animation: anim_label .5s forwards
+      span.label_name
+        display: flex
+        height: 100%
+        width: 100%
+        align-items: center
+        justify-content: center
+        text-align: center
+        padding: 10px 5px
+        border: 2px solid greenyellow
+        transition: .3s
+        box-sizing: border-box
+        border-radius: $mainRadius
+        background: transparent
+
+      /* hide checkboxes */
+      input[type='checkbox']
+        display: none
+
     div.label_group
       display: flex
       flex-flow: row wrap
-      border: 2px solid black
+      background: $groupBack
       padding: 20px
       width: calc(100% - 40px)
-      margin: 10px 0
+      margin: 30px 0 10px 0
       position: relative
+      border-radius: $mainRadius
       span.label_group_name
         display: block
         position: absolute
-        top: -5px
+        top: -15px
         left: 0
-        background: white
-        padding: 5px
+        padding: 5px 10px
+        height: 20px
+        font-family: $fnt_RobotoMed
+        letter-spacing: .08em
+        background: $groupBack
 
+        //color: white
+        border-radius: $mainRadius
+    div.chooseBtn_container
+      display: flex
+      align-items: center
+      justify-content: center
+      width: 100%
+      margin-top: 20px
+  div#repo_comments_container
+    margin: 20px auto
+    max-width: 800px
+    &>h2
+      font-family: $fnt_RobotoReg
+      letter-spacing: 0.1em
+      text-indent: 15px
+      margin-bottom: 5px
+    &>hr
+      display: block
+      margin-left: 10px
+      width: 30%
+      height: 3px
+      color: $buttonBack
+      background: $buttonBack
+      border: none
+    div.comment
+      display: flex
+      flex-flow: row wrap
+      min-height: 80px
+      background: $commentsBack
+      margin: 20px 0
+      font-family: $fnt_RobotoReg
+      letter-spacing: .07em
+      padding: 5px
+      overflow: hidden
+      border-radius: calc(#{$mainRadius}/2)
+      position: relative
+      div.comment_avatar
+        width: 40px
+        height: 40px
+        background-size: cover
+        background-position: center
+        background-repeat: no-repeat
+        border-radius: calc(#{$mainRadius}/2)
 
-
-
-
-
-@media only screen and (max-width: 1520px)
-  $new_registerSize: 400px
-  body
-    div.main_row
-      div.rhomb_container
-        width: $new_registerSize
-        height: $new_registerSize
-        left: calc(#{50%} - #{$new_registerSize/2})
-        top: calc(#{50%} - #{$new_registerSize/2})
-
-@media only screen and (max-width: 1220px)
-  $new_registerSize: 300px
-  body
-    div.main_row
-      div.rhomb_container
-        width: $new_registerSize
-        height: $new_registerSize
-        left: calc(#{50%} - #{$new_registerSize/2})
-        top: calc(#{50%} - #{$new_registerSize/2})
-
-@media only screen and (max-width: 1000px)
-  body
-    div.user_container
-      position: absolute
-      left: calc(50% - #{$user_width/2})
-    h1.title
-      margin-top: 200px
-
-@media only screen and (max-width: 910px)
-  $new_registerSize: 200px
-  body
-    div.main_row
-      div.rhomb_container
-        width: $new_registerSize
-        height: $new_registerSize
-        left: calc(#{50%} - #{$new_registerSize/2})
-        top: calc(#{50%} - #{$new_registerSize/2})
-
-@media only screen and (max-width: 630px)
-  $new_registerSize: 300px
-  body
-    h1.title
-      font-size: 3.5em
-    h2.author
-      font-size: 1.5em
-
-    div.main_row
-      flex-direction: column
-      div.rhomb_container
-        width: $new_registerSize
-        height: $new_registerSize
         margin-bottom: 10px
-        left: calc(#{50%} - #{$new_registerSize/2})
-        top: calc(#{50%} - #{$new_registerSize/2})
+      a:hover
+        text-decoration: underline
+      div.columnComment
+        display: flex
+        flex-flow: column nowrap
+        margin-left: 5px
+        padding: 0 10px
+        margin-bottom: 10px
+
+        a.userUrl
+          display: flex
+          align-items: center
+          //height: 40px
+          color: $commentsUrl
+          flex-basis: 50%
+        time
+          display: flex
+          align-items: center
+          flex-basis: 50%
+          color: #d0d0d0
+
+
+      a.commentUrl
+        display: flex
+        align-items: center
+        position: absolute
+        white-space: pre-wrap
+        width: 100px
+        text-align: center
+        top: 0
+        right: 10px
+        height: 50px
+        color: $commentsUrl
+
+      div.comment_body
+        width: 100%
+        padding: 10px 0
+        border-top: 1px solid #a6a6a6
+        background: #d0d0d0
+
+  div#loadMore_container
+    display: flex
+    justify-content: center
+    margin-bottom: 40px
+
+
+
+@media only screen and (max-width: 540px)
+  div.page
+    main.page_content
+      div.form_wrapper
+        form#queryForm
+          div.input_wrapper
+            flex-flow: column nowrap
+            div.line
+              display: none
+
+
 
 
 

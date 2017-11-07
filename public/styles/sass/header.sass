@@ -1,0 +1,107 @@
+@import "common"
+
+$headerHeight: 160px
+$menuWidth: $headerHeight
+$headerBack: #f7f7f7
+
+$color_itemHover: #ff416d
+
+div.page_header_container
+  //background: $headerBack
+  background: rgba(247, 247, 247, 0.81)
+  header.page_header
+    display: flex
+    height: $headerHeight
+    justify-content: space-between
+    align-items: center
+    width: 100%
+    //max-width: $pageWidth
+    //max-width: 1200px
+    max-width: 800px
+    //background: $headerBack
+    //margin-top: 50px
+    margin: 0 auto 0 auto
+    border-radius: $mainRadius
+
+    a.page_header_logo
+      display: block
+      height: calc(#{$headerHeight} *0.8)
+      width: calc(#{$headerHeight} *0.8)
+      background: url("/assets/images/logo.png") center no-repeat
+      background-size: cover
+      margin: 0 20px 0 10px
+    h1.page_header_title
+      display: flex
+      align-items: center
+      width: calc(100% - #{$menuWidth} - #{$headerHeight})
+      font: 900 4em $fnt_RobotoMed
+      color: #000
+      letter-spacing: .2em
+    nav.menu
+      height: $headerHeight
+      align-self: flex-end
+      width: $menuWidth
+      font-family: $fnt_RobotoReg
+      font-size: 1.1em
+      margin-right: 20px
+      ul
+        display: flex
+        flex-flow: column nowrap
+        justify-content: center
+        align-items: center
+        list-style: none
+        height: 100%
+        li
+          display: block
+          height: 40px
+          margin: 5px 0
+          width: 100%
+          a
+            display: flex
+            align-items: center
+            //justify-content: center
+            width: 100%
+            height: 100%
+            cursor: pointer
+            color: black
+            //text-align: center
+            justify-content: flex-end
+            text-align: right
+            &:hover
+              color: $color_itemHover
+
+
+@media only screen and (max-width: 700px)
+  div.page_header_container
+    header.page_header
+      h1.page_header_title
+        font-size: 3em
+        font-weight: 400
+
+@media only screen and (max-width: 630px)
+  div.page_header_container
+    header.page_header
+      h1.page_header_title
+        letter-spacing: 0.05em
+        font-size: 2em
+
+@media only screen and (max-width: 500px)
+  div.page_header_container
+    header.page_header
+      flex-flow: column nowrap
+      align-items: center
+      height: auto
+      a.page_header_logo
+        margin-top: 10px
+      h1.page_header_title
+        display: flex
+        align-items: center
+        justify-content: center
+        width: 100%
+      nav.menu
+        margin: 0 auto
+        width: auto
+        ul li a
+          justify-content: center
+          text-align: center
+

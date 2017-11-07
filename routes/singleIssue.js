@@ -10,9 +10,12 @@ router.get('/:owner/:repo/:number', function(req, res, next) {
   let repoName = req.params.repo;
   let pageCommentsCount = 0;
 
+  /** ID of the last seen comment by this user */
+  let lastCommentId = 0;
+
   let issue;
   if(isNaN(number)){
-    res.send('Error: no such issue');
+    res.render('error', {message: 'Something bad happened', error:{status: 'Error: no such issue'}});
     return;
   }
 
@@ -20,23 +23,13 @@ router.get('/:owner/:repo/:number', function(req, res, next) {
   .then(result => {
     result = JSON.parse(result);
     if('message' in result){
-      res.send('Error: no such issue');
+      res.render('error', {message: 'Something bad happened', error:{status: 'No such issue'}});
       return;
     }
     result.body = git.parseMarkdown(result.body, `${repoOwner}/${repoName}`);
+    // console.log(result.body);
     result.gitLink = `https://github.com/${repoOwner}/${repoName}/issues/${number}`;
     issue = result;
-    // totalCommentsCount = issue.comments;
-    // console.log('totalCommentsCount');
-    // console.log(totalCommentsCount);
-    //
-    // /** how many comments pages */
-    //
-    // let lastPageCommentsCount = totalCommentsCount % git.commentsPerPage;
-    // pageCommentsCount = parseInt(totalCommentsCount / git.commentsPerPage);
-    // if(lastPageCommentsCount> 0)
-    //   pageCommentsCount++;
-
     return git.getCommentsForIssue(repoOwner, repoName, number, pageCommentsCount);
   })
   .then(result => {
@@ -52,23 +45,49 @@ router.get('/:owner/:repo/:number', function(req, res, next) {
       e.body = git.parseMarkdown(e.body, `${repoOwner}/${repoName}`);
       return e;
     });
+    let realUser={
+      login: '',
+      url: '',
+      avatar: '',
+    };
+
+    if(comments.length> 0)
+      lastCommentId = comments[comments.length-1].id;
+
+    req.session.lastCommentId = lastCommentId;
+
+    if(req.session.user !== undefined){
+      realUser = {
+        login: req.session.user.login,
+        url: req.session.user.html_url,
+        avatar: req.session.user.avatar_url
+      }
+    }
 
     res.render('singleIssue', {
+      realUser: realUser,
+      repoOwner,
+      repoName,
       isLogged : !!req.session.user,
       issue: issue,
       comments: comments,
-      isLabelled: !(issue.labels.length === 0),
       helpers: {
         generateUrlForLabel: function(name) {
           return `/issues?q=label:${name.includes(' ')? `"${name}"`: name}+repo:${repoOwner}/${repoName}&page=1`
-        }
+        },
+        parseDate(date){
+          return new Date(date).toLocaleString();
+        },
+        parseDateVal(date){
+          return new Date(date);
+        },
       }
     });
 
   })
   .catch(err => {
     console.log(err);
-    res.send('Error');
+    res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
   });
 
 });

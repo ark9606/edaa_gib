@@ -75,12 +75,15 @@
 </g>
 </svg></a>
       </div>
+      {{#if isLabelled}}
         <div class="issue_labels">
           <!--<h2 class="issue_labels_header">Labels</h2>-->
           {{#each issue.labels}}
             <a href="{{generateUrlForLabel this.name}}" class="issue_label_item clearA" style="background-color: #{{this.color}}">{{this.name}}</a>
           {{/each}}
         </div>
+      {{/if}}
+
       <div class="issue_user">
         <div class="issue_user_avatar" style="background-image: url({{issue.user.avatar_url}})"></div>
         <div class="issue_user_info">
@@ -117,10 +120,8 @@
             </div>
             <textarea name="text" id="textarea_message" placeholder="Write a message ..." style="white-space: pre-wrap;" required></textarea>
             <div class="form_row">
-              <div id="formAlert"><span>GitHub Markdown syntax is available</span></div>
-              <div class="button_container">
-                <input type="submit" value="Send" title="Make a comment on GitHub"  id="sendButton">
-              </div>
+              <div id="formAlert"><span>Make a comment on GitHub</span></div>
+              <input type="submit" value="Send" class="button">
             </div>
           </form>
         {{else}}
@@ -136,7 +137,6 @@
   'use strict';
   let isLogged = "{{isLogged}}" === 'true';
 </script>
-<!--<script src="/scripts/signInGit.js"></script>-->
 <script src="/socket.io/socket.io.js"></script>
 <script src="/scripts/singleIssue.js"></script>
 

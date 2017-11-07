@@ -17,7 +17,7 @@ router.post('/repo', function(req, res, next) {
   .then(result => {
     result = JSON.parse(result);
     if('message' in result){
-      res.send('%NO%');
+      res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
       return;
     }
 
@@ -56,11 +56,11 @@ router.post('/repo', function(req, res, next) {
       }
     });
 
-    // console.dir(labels, 4);
     res.send(labels);
   })
   .catch(err => {
-    res.send('%NO%');
+    // res.send('%NO%');
+    res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
   });
 });
 
@@ -83,10 +83,15 @@ router.post('/loadcomments', function(req, res, next) {
   })
   .catch(err=>{
     console.log(err);
-    res.send('%NO%');
+    // res.send('%NO%');
+    res.render('error', {message: 'Something bad happened', error:{status: 'Try again later'}});
   })
-
-
 });
 
+router.post('/login', function(req, res, next) {
+  req.session.myRedirect_url = req.body.redirect_url;
+  console.log('REDirect');
+  console.log(req.session.myRedirect_url);
+  res.send('%OK%');
+});
 module.exports = router;

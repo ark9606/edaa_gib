@@ -1,7 +1,5 @@
-<div class="user_container">
-  {{#if isLogged}}
-    <a href="/logout">Logout</a>
-  {{else}}
-    <a href="https://github.com/login/oauth/authorize?client_id=93c906b21452e92cb0a9&scope=public_repo" id="loginGitHub">Login with GitHub</a>
-  {{/if}}
-</div>
+{{#if isLogged}}
+  <a href="/profile" class="clearA">Profile</a>
+{{else}}
+  <a href="https://github.com/login/oauth/authorize?client_id=21d5d0355d245494032c&scope=public_repo" id="loginGitHub" class="clearA">Sign in with GitHub</a>
+{{/if}}

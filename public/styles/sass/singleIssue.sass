@@ -1,99 +1,286 @@
 @import 'base'
+@import "header"
 
-$rhombOverlay: rgba(146, 146, 146, 0.71)
+$clr_Commheader: #c9f5ff
 
-$rhombBack1: #FFBA75
-$rhombBack2: #FEAC58
-$rhombBack3: #FF9A36
-
-$userActionTxtClr: #fff
-$user_width: 200px
-
-body
-  form#labels
-    display: flex
-    flex-flow: row wrap
-    justify-content: center
-    align-items: center
-    padding: 20px
-    width: calc(100% - 40px)
-    label
-      margin: 10px auto
-    div.label_group
-      display: flex
-      flex-flow: row wrap
-      border: 2px solid black
-      padding: 20px
-      width: calc(100% - 40px)
-      margin: 10px 0
+div.page
+  main.page_content
+    margin: 0 auto
+    max-width: 800px
+    div.issue_header
+      margin-top: 20px
+      background: white
+      //border-radius: $mainRadius
+      border-top-left-radius: $mainRadius
+      border-top-right-radius: $mainRadius
       position: relative
-      span.label_group_name
-        display: block
+      padding: 10px 10px 0 10px
+      h2
+        font: 100 1.1em $fnt_RobotoLight
+        letter-spacing: 0.05em
+        color: gray
+        max-width: calc(100% - 50px)
+
+      h1.issue_title
+        font-family: $fnt_RobotoReg
+        font-weight: 100
+        font-size: 1.6em
+        letter-spacing: 0.05em
+        margin: 10px 0 0 0
+        max-width: calc(100% - 50px)
+
+        span.issue_number
+          color: gray
+          font-family: $fnt_RobotoLight
+          margin-left: 10px
+          font-weight: 100
+      a.issueLink
         position: absolute
-        top: -5px
-        left: 0
-        background: white
-        padding: 5px
+        display: block
+        top: 10px
+        right: 10px
+        height: 50px
+        //margin-top: 25px
+        //top: 500px
+        svg
+          height: 50px
+          width: 50px
+          path
+            transition: .3s
+          &:hover
+            path
+              fill: red
+
+    div.issue_labels
+      display: flex
+      flex-wrap: wrap
+      align-items: center
+      background: white
+      padding: 10px
+      border-bottom-left-radius: $mainRadius
+      border-bottom-right-radius: $mainRadius
+      margin-bottom: 10px
+      h2.issue_labels_header
+        font: 400 1.5em $fnt_RobotoLight
+        letter-spacing: 0.05em
+        //margin: 10px 5px 5px 5px
+        margin-top: 20px
+        width: 100%
+      a.issue_label_item
+        display: flex
+        align-items: center
+        justify-content: center
+        text-align: center
+        border-radius: $mainRadius
+        min-height: 20px
+        padding: 5px 10px
+        font-family: $fnt_RobotoLight
+        color: black
+        letter-spacing: 0.05em
+        margin: 5px
+        transition: .3s
+        &:hover
+          text-decoration: underline
+    div.issue_user
+      display: flex
+      padding: 5px
+      background: $clr_Commheader
+      border-top-left-radius: $mainRadius
+      border-top-right-radius: $mainRadius
+      font-family: $fnt_RobotoReg
+      div.issue_user_avatar
+        height: 50px
+        width: 50px
+        border-radius: $mainRadius
+        background-size: cover
+        background-repeat: no-repeat
+        background-position: center
+        margin-right: 10px
+      div.issue_user_info
+        display: flex
+        flex-direction: column
+        justify-content: center
+        a.issue_user_login
+          color: black
+          &:hover
+            text-decoration: underline
+        time
+          color: gray
 
 
+    div.issue_body
+      background: white
+      padding: 10px
+      box-sizing: border-box
+      border: 4px solid $clr_Commheader
+      border-bottom-left-radius: $mainRadius
+      border-bottom-right-radius: $mainRadius
+
+    div.issue_comments
+      margin-bottom: 300px
+      div.issue_comments_item
+        background: $clr_Commheader
+        border-radius: $mainRadius
+        min-height: 60px
+        margin: 10px 0
+        padding-bottom: 5px
+        div.issue_comments_item_header
+          display: flex
+          padding: 10px
+          background-color: $clr_Commheader
+          font-family: $fnt_RobotoReg
+          border-top-left-radius: $mainRadius
+          border-top-right-radius: $mainRadius
+          div.issue_comments_item_user_avatar
+            height: 50px
+            width: 50px
+            border-radius: $mainRadius
+            background-size: cover
+            background-repeat: no-repeat
+            background-position: center
+            margin-right: 10px
+          div.issue_comments_item_user_info
+            display: flex
+            flex-direction: column
+            justify-content: center
+            time
+              color: gray
+            a
+              color: black
+              &:hover
+                text-decoration: underline
+        div.issue_comments_item_body
+          padding: 10px
+          background: white
+          margin: 0 5px
+          border-bottom-left-radius: 8px
+          border-bottom-right-radius: 8px
+          //box-sizing: border-box
+          //border: 4px solid $clr_Commheader
+    div.issue_message
+      position: fixed
+      bottom: 0
+      max-width: 800px
+      //transform: translateY(250px)
+      transform: translateY(100%)
+      transition: .5s
+      display: flex
+      //height: 250px
+      min-height: 250px
+      width: calc(100% - 20px)
+      border-radius: $mainRadius
+      border-top-right-radius: 0
+      background: white
+      font-family: $fnt_RobotoReg
+      letter-spacing: 0.05em
+
+      &>a
+        display: block
+        margin: auto
+        text-align: center
+        color: darkblue
+        &:hover
+          text-decoration: underline
+      div#chat_button
+        display: flex
+        position: absolute
+        width: 60px
+        height: 40px
+        background: #6cb5ff
+        right: 0
+        top: -40px
+        border-top-left-radius: $mainRadius
+        border-top-right-radius: $mainRadius
+        cursor: pointer
+        transition: .3s
+        &:hover
+          background: dodgerblue
+        div.arrow
+          margin: auto
+          width: 20px
+          height: 20px
+          box-sizing: border-box
+          transition: .3s
+          border-bottom: 2px solid white
+          border-left: 2px solid white
+          transform: rotate(135deg)
+
+          animation: anim_chat_arrow .5s infinite alternate
+
+      form
+        width: 100%
+        height: 100%
+        position: relative
 
 
+        div.newMessage_header
+          display: flex
+          padding: 5px
+          background: #6cb5ff
+          border-top-left-radius: $mainRadius
+          div.newMessage_header_avatar
+            height: 50px
+            width: 50px
+            border-radius: $mainRadius
+            background-size: cover
+            background-repeat: no-repeat
+            background-position: center
+            margin-right: 10px
+          a.newMessage_header_login
+            display: flex
+            align-items: center
+            color: black
+            font-size: 1.1em
+            &:hover
+              text-decoration: underline
+        textarea
+          font-family: $fnt_RobotoReg
+          letter-spacing: 0.1em
+          font-size: 1em
+          width: calc(100%)
+          height: 100px
+          box-sizing: border-box
+          resize: none
+          outline: none
+          padding: 10px
+          box-shadow: inset 0 0 10px rgba(0,0,0,0.2)
+        div.form_row
+          display: flex
+          align-items: center
+          justify-content: space-between
+          margin-top: 20px
+          div#formAlert
+            display: flex
+            align-items: center
+            justify-content: center
+            text-align: center
+            min-height: 40px
+            //background: $clr_mainGray
+            //border-radius: $mainRadius
+            flex-basis: 70%
+            margin-left: 20px
+            margin-right: 5px
+            white-space: pre-wrap
+            box-sizing: border-box
+            padding: 5px
+            color: gray
+          div.button_container
+            margin-right: 20px
+            input[type='submit']
+              background: deepskyblue
+              color: white
+              &:hover
+                background: dodgerblue
+            &.load
+              &>input[type='submit']
+                color: transparent
 
 
-@media only screen and (max-width: 1520px)
-  $new_registerSize: 400px
-  body
-    div.main_row
-      div.rhomb_container
-        width: $new_registerSize
-        height: $new_registerSize
-        left: calc(#{50%} - #{$new_registerSize/2})
-        top: calc(#{50%} - #{$new_registerSize/2})
-
-@media only screen and (max-width: 1220px)
-  $new_registerSize: 300px
-  body
-    div.main_row
-      div.rhomb_container
-        width: $new_registerSize
-        height: $new_registerSize
-        left: calc(#{50%} - #{$new_registerSize/2})
-        top: calc(#{50%} - #{$new_registerSize/2})
-
-@media only screen and (max-width: 1000px)
-  body
-    div.user_container
-      position: absolute
-      left: calc(50% - #{$user_width/2})
-    h1.title
-      margin-top: 200px
-
-@media only screen and (max-width: 910px)
-  $new_registerSize: 200px
-  body
-    div.main_row
-      div.rhomb_container
-        width: $new_registerSize
-        height: $new_registerSize
-        left: calc(#{50%} - #{$new_registerSize/2})
-        top: calc(#{50%} - #{$new_registerSize/2})
-
-@media only screen and (max-width: 630px)
-  $new_registerSize: 300px
-  body
-    h1.title
-      font-size: 3.5em
-    h2.author
-      font-size: 1.5em
-
-    div.main_row
-      flex-direction: column
-      div.rhomb_container
-        width: $new_registerSize
-        height: $new_registerSize
-        margin-bottom: 10px
-        left: calc(#{50%} - #{$new_registerSize/2})
-        top: calc(#{50%} - #{$new_registerSize/2})
-
+@keyframes anim_chat_arrow
+  0%
+    //transform: rotate(135deg) translateY(10px) translateX(-10px)
+    transform: rotate(135deg) translateY(1px) translateX(-1px)
+  100%
+    transform: rotate(135deg) translateY(-8px) translateX(8px)
 
 
