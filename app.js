@@ -7,6 +7,8 @@ let bodyParser = require('body-parser');
 let hbs = require('express-handlebars');
 let expressSession = require('express-session');
 
+let httpsRedirect = require('express-https-redirect');
+
 let index = require('./routes/index');
 let issues = require('./routes/issues');
 let logout = require('./routes/logout');
@@ -36,6 +38,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 let sessionMiddleware =expressSession({secret: 'g45fdg456fg4d5g4fd465xz1c2dr', saveUninitialized: false, resave: false, expires: false});
 app.use(sessionMiddleware);
 
+app.use('/', httpsRedirect());
+
 app.use('/', index);
 app.use('/issues', issues);
 app.use('/issue', singleIssue);
@@ -49,9 +53,9 @@ app.use('/test', test);
 
 
 /** redirect http to https */
-app.use(function requireHTTPS(req, res, next) {
-  res.redirect('https://' + req.headers.host + req.url);
-});
+// app.use(function requireHTTPS(req, res, next) {
+//   res.redirect('https://' + req.headers.host + req.url);
+// });
 
 
 
