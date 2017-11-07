@@ -19,7 +19,8 @@ if(document.getElementById('loadMore') !== null) {
       if (xhr.readyState !== 4) return;
 
       if (xhr.status !== 200) {
-        alert('ERROR ' + xhr.status + ': ' + xhr.statusText);
+        console.log('ERROR ' + xhr.status + ': ' + xhr.statusText);
+        alert('Some error happens...');
       }
       else {
         this.classList.remove('load');

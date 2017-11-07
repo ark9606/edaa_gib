@@ -26,7 +26,8 @@ document.getElementById('queryForm').addEventListener('submit', function (e) {
 
     if (xhr.status !== 200)
     {
-      alert('ERROR ' + xhr.status + ': ' + xhr.statusText);
+      alert('Some error happens...');
+      console.log('ERROR ' + xhr.status + ': ' + xhr.statusText);
     }
     else
     {
@@ -52,7 +53,8 @@ document.getElementById('queryForm').addEventListener('submit', function (e) {
         if (xhr.readyState !== 4) return;
 
         if (xhr.status !== 200) {
-          alert('ERROR ' + xhr.status + ': ' + xhr.statusText);
+          alert('Some error happens...');
+          console.log('ERROR ' + xhr.status + ': ' + xhr.statusText);
         }
         else {
           let data = xhr.response;
